@@ -1,0 +1,30 @@
+.live-bar { height: 40px; padding-right: 146px; gap: 8px; }
+.title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+.end { background: var(--live); border-color: var(--live); color: #fff; font-weight: 600; padding: 4px 14px; }
+.end:hover:not(:disabled) { background: #ff7a7a; }
+
+.captions { padding: 8px 16px 10px; border-bottom: 1px solid var(--border); flex: none; }
+.cap-them { font-size: 16px; line-height: 1.4; color: var(--text); max-height: 4.2em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+.cap-them.muted { color: var(--muted); font-size: 14px; }
+.cap-meta { font-size: 11px; margin-top: 2px; }
+.cap-me { font-size: 12px; color: var(--me); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cap-me:empty { display: none; }
+.cap-warn { font-size: 12px; color: var(--warn); margin-top: 6px; }
+
+.cards { flex: 1; min-height: 0; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+.cards-empty { margin: auto; text-align: center; max-width: 280px; font-size: 13px; }
+.answer-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; }
+.answer-card.interviewer { border-color: color-mix(in srgb, var(--them) 45%, var(--border)); }
+.answer-card.error .md { color: var(--danger); }
+.answer-card .you { font-size: 12px; color: var(--me); margin-bottom: 6px; }
+.answer-card .md { font-size: 14px; }
+.answer-card .md.pending { color: var(--muted); }
+.card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; font-size: 11px; color: var(--muted); }
+
+.controls { flex: none; border-top: 1px solid var(--border); padding: 10px 14px 12px; display: flex; flex-direction: column; gap: 8px; }
+.big button { flex: 1; padding: 9px; font-size: 15px; }
+.meter-label { font-size: 11px; color: var(--muted); }
+.meter { width: 44px; height: 4px; background: var(--raised); border-radius: 2px; overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0; transition: width 80ms linear; }
+#lvl-them { background: var(--them); }
+#lvl-me { background: var(--me); }

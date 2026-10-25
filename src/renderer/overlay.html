@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; img-src 'self' data:" />
+    <title>Mynah - Live</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="overlay.css" />
+  </head>
+  <body>
+    <header class="titlebar live-bar">
+      <span class="brand"><span class="logo">M</span></span>
+      <span id="timer" class="pill live">00:00</span>
+      <span id="title" class="title muted"></span>
+      <button id="btn-end" class="end">End</button>
+    </header>
+
+    <div class="captions">
+      <div id="cap-them" class="cap-them muted">Listening for the caller...</div>
+      <div id="cap-meta" class="cap-meta muted"></div>
+      <div id="cap-me" class="cap-me"></div>
+      <div id="cap-warn" class="cap-warn" hidden></div>
+    </div>
+
+    <div id="cards" class="cards">
+      <div id="cards-empty" class="cards-empty muted">Answers appear here. Auto Answer replies when the caller asks a question, or press <b>Answer</b>.</div>
+    </div>
+
+    <div class="controls">
+      <div class="row">
+        <label class="check small-text"><span class="switch"><input type="checkbox" id="auto" /><i></i></span> Auto Answer</label>
+        <button id="btn-clear" class="ghost small">Clear</button>
+        <span class="grow"></span>
+        <span class="meter-label">Caller</span><span class="meter"><i id="lvl-them"></i></span>
+        <span class="meter-label">You</span><span class="meter"><i id="lvl-me"></i></span>
+      </div>
+      <form id="msg-form" class="row">
+        <input id="msg" class="grow" placeholder="Type a manual message..." autocomplete="off" />
+        <button type="submit">Send</button>
+      </form>
+      <div class="row big">
+        <button id="btn-answer" class="primary" title="Ctrl+Alt+Enter">Answer</button>
+        <button id="btn-shot" title="Ctrl+Alt+S">Screenshot</button>
+      </div>
+    </div>
+
+    <script src="overlay.js"></script>
+  </body>
+</html>

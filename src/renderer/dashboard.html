@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; img-src 'self' data:" />
+    <title>Mynah</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <header class="titlebar">
+      <span class="brand"><span class="logo">M</span>Mynah</span>
+    </header>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <nav>
+          <button class="nav active" data-view="sessions">Call Sessions</button>
+          <button class="nav" data-view="documents">Documents</button>
+          <button class="nav" data-view="settings">Settings</button>
+        </nav>
+        <div class="sidebar-foot">
+          <div id="plan-card" class="plan-card"></div>
+          <span id="stt-pill" class="pill">Speech: loading</span>
+        </div>
+      </aside>
+
+      <main class="content">
+        <!-- Call Sessions ------------------------------------------------------------>
+        <section id="view-sessions" class="view">
+          <div class="view-head">
+            <div>
+              <h1>Call Sessions</h1>
+              <p class="muted">Prepare for calls and review past sessions.</p>
+            </div>
+            <button id="btn-create" class="primary">Create Session</button>
+          </div>
+          <div class="toolbar">
+            <div id="session-filter" class="segmented">
+              <button data-filter="all" class="on">All</button>
+              <button data-filter="active">Active</button>
+              <button data-filter="ended">Ended</button>
+            </div>
+            <span id="session-count" class="muted"></span>
+            <input id="session-search" class="search" placeholder="Search by company or position" />
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr><th>Session</th><th>Mode</th><th>Duration</th><th>Created</th><th>Save Transcript</th><th>State</th><th></th></tr>
+              </thead>
+              <tbody id="session-rows"></tbody>
+            </table>
+            <div id="sessions-empty" class="empty" hidden>
+              <p>No sessions yet.</p>
+              <p class="muted">Create one before your call: add the company, role and your resume, then start it when the call begins.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Session detail ----------------------------------------------------------->
+        <section id="view-detail" class="view" hidden>
+          <button id="btn-back" class="ghost back">← Call Sessions</button>
+          <div class="view-head">
+            <div>
+              <h1 id="detail-title"></h1>
+              <p id="detail-sub" class="muted"></p>
+            </div>
+            <div id="detail-actions" class="row"></div>
+          </div>
+          <div id="detail-tabs" class="tabs"></div>
+          <div id="detail-body" class="detail-body"></div>
+        </section>
+
+        <!-- Documents -------------------------------------------------------------------->
+        <section id="view-documents" class="view" hidden>
+          <div class="view-head">
+            <div>
+              <h1>Documents</h1>
+              <p class="muted">Resumes, briefs, notes and playbooks to use during your calls.</p>
+            </div>
+            <button id="btn-upload" class="primary">Upload</button>
+          </div>
+          <p id="docs-status" class="muted small-text"></p>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Name</th><th>Type</th><th>Size</th><th>Uploaded</th><th></th></tr></thead>
+              <tbody id="doc-rows"></tbody>
+            </table>
+            <div id="docs-empty" class="empty" hidden>
+              <p>No documents yet.</p>
+              <p class="muted">Upload your resume (PDF) and any notes you want answers to draw on.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Settings ------------------------------------------------------------------------>
+        <section id="view-settings" class="view" hidden>
+          <div class="view-head"><div><h1>Settings</h1></div></div>
+          <div class="settings">
+            <div class="card stack">
+              <h2>AI provider</h2>
+              <label class="field"><span>Provider</span>
+                <select id="provider">
+                  <option value="chatgpt">ChatGPT: use my ChatGPT plan (no API key)</option>
+                  <option value="claude">Claude: Anthropic API key</option>
+                </select>
+              </label>
+              <div id="provider-chatgpt" class="stack">
+                <div id="chatgpt-signed-out" class="stack">
+                  <p class="muted">Sign in once in your browser. Answers then count against your ChatGPT plan's limits instead of a bill.</p>
+                  <div><button id="btn-chatgpt-signin" class="chatgpt">Continue with ChatGPT</button></div>
+                </div>
+                <div id="chatgpt-signed-in" class="row" hidden>
+                  <span class="grow">Signed in as <b id="chatgpt-account"></b></span>
+                  <button id="btn-chatgpt-usage" class="ghost">View usage</button>
+                  <button id="btn-chatgpt-signout" class="ghost">Sign out</button>
+                </div>
+                <small id="chatgpt-status" class="muted"></small>
+              </div>
+              <div id="provider-claude" class="stack" hidden>
+                <label class="field"><span>Anthropic API key</span>
+                  <input id="api-key" type="password" placeholder="sk-ant-..." autocomplete="off" />
+                  <small id="api-key-status" class="muted"></small>
+                </label>
+              </div>
+            </div>
+
+            <div class="card stack">
+              <h2>Answers</h2>
+              <label class="field"><span>Default model</span><select id="default-model"></select></label>
+              <label class="field"><span>Answer depth</span>
+                <select id="live-effort">
+                  <option value="low">Fast (recommended for live calls)</option>
+                  <option value="medium">Balanced</option>
+                  <option value="high">Thorough (slower)</option>
+                </select>
+              </label>
+              <label class="check"><input type="checkbox" id="auto-answer" /> Auto Answer on when a session starts</label>
+            </div>
+
+            <div class="card stack">
+              <h2>Live window</h2>
+              <label class="check"><input type="checkbox" id="always-on-top" /> Keep the live window on top of other windows</label>
+              <label class="field"><span>Opacity</span><input id="opacity" type="range" min="0.4" max="1" step="0.02" /></label>
+              <p class="muted small-text">Hotkeys during a session: <kbd>Ctrl+Alt+Enter</kbd> answer · <kbd>Ctrl+Alt+S</kbd> screenshot · <kbd>Ctrl+Alt+H</kbd> show/hide</p>
+            </div>
+
+            <div class="card stack">
+              <h2>Mock interviews</h2>
+              <label class="field"><span>Interviewer voice</span>
+                <div class="row"><select id="voice" class="grow"></select><button id="btn-voice-test">Test</button></div>
+              </label>
+              <label class="field"><span>Questions per mock interview</span><input id="mock-questions" type="number" min="2" max="20" /></label>
+            </div>
+
+            <div class="card stack">
+              <h2>Meetings and speech</h2>
+              <label class="check"><input type="checkbox" id="detect-meetings" /> Ask to start a session when Zoom, Teams or a browser call starts using the mic</label>
+              <label class="field"><span>Speech model folder</span><input id="model-dir" /></label>
+              <p class="muted small-text">Speech-to-text runs on this PC (NVIDIA Parakeet). It understands English and 24 European languages; for other languages it may transcribe poorly.</p>
+            </div>
+
+            <div class="row"><button id="btn-settings-save" class="primary">Save settings</button><span id="settings-saved" class="muted"></span></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Create / edit session --------------------------------------------------------------->
+    <div id="modal" class="modal" hidden>
+      <form id="session-form" class="modal-box">
+        <div class="modal-head">
+          <h2 id="modal-title">Create Session</h2>
+          <button type="button" id="btn-modal-close" class="ghost">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="kind-cards">
+            <button type="button" class="kind-card" data-kind="real">
+              <b>Real Session</b><span class="muted">Connect to your actual call. Mynah listens to the call audio and your mic.</span>
+            </button>
+            <button type="button" class="kind-card" data-kind="mock">
+              <b>Mock Session</b><span class="muted">Practise against an AI interviewer that asks questions out loud.</span>
+            </button>
+          </div>
+          <div class="grid-2">
+            <label class="field"><span>Company</span><input id="f-company" placeholder="e.g. Stripe" /></label>
+            <label class="field"><span>Position or topic</span><input id="f-position" placeholder="e.g. Backend Engineer" /></label>
+          </div>
+          <div class="grid-2">
+            <div class="field"><span>Mode</span>
+              <div id="f-mode" class="segmented">
+                <button type="button" data-mode="interview" class="on">Interview</button>
+                <button type="button" data-mode="regular">Regular call</button>
+              </div>
+            </div>
+            <label class="field"><span>Language</span><select id="f-language"></select></label>
+          </div>
+          <label class="field"><span>AI model</span><select id="f-model"></select></label>
+          <label id="f-resume-field" class="field"><span>Resume</span>
+            <div class="row"><select id="f-resume" class="grow"></select><button type="button" id="btn-f-upload-resume">Upload</button></div>
+          </label>
+          <div class="field"><span>Documents</span>
+            <div id="f-docs" class="doc-picks"></div>
+            <div><button type="button" id="btn-f-upload-docs" class="small">Upload documents</button></div>
+          </div>
+          <label class="field"><span>Instructions <small id="f-count" class="muted"></small></span>
+            <textarea id="f-instructions" rows="5" placeholder="Paste the job description, or tell Mynah how to answer (tone, length, preferred language for code...)"></textarea>
+          </label>
+          <label class="check"><input type="checkbox" id="f-save" checked /> Save transcript after the call</label>
+          <p id="f-error" class="error-text small-text"></p>
+        </div>
+        <div class="modal-foot">
+          <button type="button" id="btn-modal-cancel" class="ghost">Cancel</button>
+          <button type="submit" id="btn-modal-save">Create Session</button>
+          <button type="button" id="btn-modal-start" class="primary">Create &amp; Start</button>
+        </div>
+      </form>
+    </div>
+
+    <script src="dashboard.js"></script>
+  </body>
+</html>
