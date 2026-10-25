@@ -2,6 +2,7 @@
   "name": "mynah",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "description": "Real-time call assistant: local Parakeet speech-to-text + Claude answers, practice feedback and a knowledge base.",
   "main": "dist/main.mjs",
   "scripts": {

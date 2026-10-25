@@ -45,6 +45,10 @@ Call audio is captured as system loopback audio and your voice from the micropho
 
 The live window is visible on screen share, by design. Use Mynah where AI assistance is allowed: practice, mock interviews, sales and client calls, meetings, or interviews where you have permission. Many employers and exam providers do not allow live AI help, so check the rules first.
 
+## License
+
+MIT, see [LICENSE](LICENSE). The speech models downloaded by `npm run models` keep their own licenses (listed below).
+
 ## Credits
 
 - [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) (Apache-2.0) for on-device speech recognition and voice activity detection
