@@ -96,6 +96,8 @@ export interface Settings {
   autoAnswer: boolean;
   alwaysOnTop: boolean;
   opacity: number;
+  /** Keep Mynah's windows out of screen sharing and recording (best effort, see privacy.ts). */
+  hideFromCapture: boolean;
   modelDir: string;
   detectMeetings: boolean;
   /** speechSynthesis voice name for the mock interviewer; "" = system default. */
@@ -106,6 +108,8 @@ export interface Settings {
 /** What the renderer sees: the API key itself never leaves the main process. */
 export type PublicSettings = Omit<Settings, "apiKey"> & {
   hasApiKey: boolean;
+  /** What "hideFromCapture" does on this PC. */
+  captureProtection: "hidden" | "blacked-out" | "unsupported";
   /** Email of the signed-in ChatGPT account, or null. */
   chatgptAccount: string | null;
 };
@@ -151,7 +155,8 @@ export type MainEvent =
   | "auto-answer"
   | "ask-ai"
   | "meeting-detected"
-  | "open-session";
+  | "open-session"
+  | "settings-changed";
 
 export interface MynahApi {
   // Settings and accounts
@@ -202,4 +207,5 @@ export interface MynahApi {
   on(event: "ask-ai", cb: (ev: AskEvent) => void): void;
   on(event: "meeting-detected", cb: (app: string) => void): void;
   on(event: "open-session", cb: (id: string) => void): void;
+  on(event: "settings-changed", cb: (settings: PublicSettings) => void): void;
 }

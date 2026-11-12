@@ -182,12 +182,32 @@ $("btn-end").addEventListener("click", async () => {
   await api.endSession();
 });
 
+/** Says whether this window is being kept out of screen sharing, so it is never assumed. */
+function showPrivacy(): void {
+  const pill = $("privacy");
+  pill.hidden = !settings.hideFromCapture;
+  const [text, cls, title] = {
+    hidden: ["Private", "ok", "This window is left out of screen sharing and recording (best effort: check with a test call)."],
+    "blacked-out": ["Blacked out", "warn", "On this version of Windows, viewers of a shared screen see a black rectangle where this window is."],
+    unsupported: ["Not private", "err", "Hiding from screen sharing is not known to work on this system."],
+  }[settings.captureProtection];
+  pill.textContent = text;
+  pill.className = `pill ${cls}`;
+  pill.title = title;
+}
+
+api.on("settings-changed", (next) => {
+  settings = next;
+  showPrivacy();
+});
+
 setInterval(() => {
   if (record) $("timer").textContent = clock(Date.now() - startedAt());
 }, 500);
 
 async function init(): Promise<void> {
   [record, settings] = await Promise.all([api.liveSession(), api.getSettings()]);
+  showPrivacy();
   if (!record) return;
   $("title").textContent = [record.company, record.position].filter(Boolean).join(" · ") || "Live session";
   $<HTMLInputElement>("auto").checked = settings.autoAnswer;

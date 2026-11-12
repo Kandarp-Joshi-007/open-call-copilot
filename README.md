@@ -6,6 +6,7 @@ A real-time call assistant for Windows. Speech-to-text runs locally with NVIDIA 
 
 - **Call Sessions:** create a session per call with company, role, mode (Interview or Regular call), language, AI model, resume, documents and instructions. Sessions are listed as Ready to Start, Live or Ended.
 - **Live window:** an always-on-top panel showing live captions of the other side, answer cards when a question is detected (Auto Answer), a manual message box, and Answer / Screenshot buttons.
+- **Hide from screen sharing (optional):** a setting that asks Windows to leave Mynah's windows out of screen sharing and recording, so your notes and captions stay private when you present your whole screen.
 - **Screenshot:** sends a screenshot of a coding or technical problem and gets back an approach, complexity and code.
 - **After the call:** AI Notes (summary, questions asked, key points, next steps), the full transcript, interview feedback with scores, and Ask AI about the call.
 - **Mock Session:** an AI interviewer asks questions out loud (text-to-speech) and responds to your spoken answers.
@@ -45,7 +46,7 @@ Call audio is captured as system loopback audio and your voice from the micropho
 
 ## Responsible use
 
-The live window is visible on screen share, by design. Use Mynah where AI assistance is allowed: practice, mock interviews, sales and client calls, meetings, or interviews where you have permission. Many employers and exam providers do not allow live AI help, so check the rules first.
+By default Mynah's windows are visible on a screen share. **Settings > Live window > Hide Mynah's windows from screen sharing and recording** leaves them out (Windows 10 version 2004 or later; older versions show a black rectangle). This is a privacy feature for your own notes, not a way around the rules of a call: it is best effort, the taskbar button, Alt+Tab and Task Manager still show the app, and it does not change what you are allowed to use. Use Mynah where AI assistance is allowed: practice, mock interviews, sales and client calls, meetings, or interviews where you have permission. Many employers and exam providers do not allow live AI help, so check the rules first.
 
 ## License
 

@@ -102,6 +102,17 @@ function keepLinksOutside(win: BrowserWindow): void {
   });
 }
 
+/**
+ * Applies "Hide Mynah from screen sharing" to every window we own. Native
+ * surfaces (toasts, message boxes) are not windows of ours and stay visible to
+ * a screen share, so they are avoided while the setting is on.
+ */
+function applyCaptureProtection(): void {
+  for (const win of [dashboard, overlay]) {
+    if (win && !win.isDestroyed()) win.setContentProtection(settings.hideFromCapture);
+  }
+}
+
 function createDashboard(): void {
   dashboard = new BrowserWindow({
     width: 1180,
@@ -115,6 +126,7 @@ function createDashboard(): void {
     webPreferences: webPreferences(),
   });
   keepLinksOutside(dashboard);
+  applyCaptureProtection();
   dashboard.loadFile(path.join(here, "renderer", "dashboard.html"));
   dashboard.on("closed", () => {
     dashboard = null;
@@ -148,6 +160,7 @@ function createOverlay(): BrowserWindow {
   });
   win.setAlwaysOnTop(settings.alwaysOnTop, "floating");
   win.setOpacity(Math.min(1, Math.max(0.3, settings.opacity)));
+  win.setContentProtection(settings.hideFromCapture);
   keepLinksOutside(win);
   win.loadFile(path.join(here, "renderer", "overlay.html"));
   // Closing the live window ends the session.
@@ -257,6 +270,8 @@ function registerIpc(): void {
     else meetings.stop();
     overlay?.setAlwaysOnTop(settings.alwaysOnTop, "floating");
     overlay?.setOpacity(Math.min(1, Math.max(0.3, settings.opacity)));
+    applyCaptureProtection();
+    toOverlay("settings-changed", publicSettings());
     return publicSettings();
   });
   ipcMain.handle("chatgpt:signin", async () => {
@@ -370,6 +385,9 @@ function registerIpc(): void {
   ipcMain.on("live:speaking-done", () => live.speakingDone());
   ipcMain.handle("live:end", () => endLive());
   ipcMain.on("live:capture-failed", (_e, message: string) => {
+    // The live window shows the same warning itself; a message box is a
+    // native window that a screen share would show.
+    if (settings.hideFromCapture) return;
     dialog.showMessageBox(overlay ?? dashboard!, { type: "warning", message: "Could not capture audio", detail: message });
   });
 }
@@ -395,6 +413,16 @@ app.whenReady().then(async () => {
   });
   meetings = new MeetingDetector((appName) => {
     if (live.active) return;
+    if (settings.hideFromCapture && dashboard) {
+      // A Windows toast would appear in a shared screen: ask inside the app
+      // and flash the taskbar button instead.
+      toDashboard("meeting-detected", appName);
+      if (!dashboard.isFocused()) {
+        dashboard.flashFrame(true);
+        dashboard.once("focus", () => dashboard?.flashFrame(false));
+      }
+      return;
+    }
     const note = new Notification({ title: "Meeting started?", body: `${appName} is using your microphone. Click to start a Mynah session.` });
     note.on("click", () => {
       showDashboard();

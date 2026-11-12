@@ -1,7 +1,9 @@
 import { app, safeStorage } from "electron";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import type { PublicSettings, Settings } from "../shared/types";
+import { captureProtection } from "./privacy";
 
 type Stored = Omit<Settings, "apiKey"> & { apiKeyEnc?: string };
 
@@ -19,6 +21,7 @@ function defaults(): Settings {
     autoAnswer: true,
     alwaysOnTop: true,
     opacity: 0.97,
+    hideFromCapture: false,
     modelDir: path.join(app.getAppPath(), "models"),
     detectMeetings: true,
     interviewerVoice: "",
@@ -65,5 +68,10 @@ export function saveSettings(settings: Settings): void {
 
 export function toPublic(settings: Settings, chatgptAccount: string | null): PublicSettings {
   const { apiKey, ...rest } = settings;
-  return { ...rest, hasApiKey: Boolean(apiKey || process.env.ANTHROPIC_API_KEY), chatgptAccount };
+  return {
+    ...rest,
+    hasApiKey: Boolean(apiKey || process.env.ANTHROPIC_API_KEY),
+    chatgptAccount,
+    captureProtection: captureProtection(process.platform, os.release()),
+  };
 }

@@ -421,6 +421,13 @@ $("btn-upload").addEventListener("click", async () => {
 
 // ---- Settings ---------------------------------------------------------------------------------------
 
+const CAPTURE_NOTE: Record<PublicSettings["captureProtection"], string> = {
+  hidden:
+    "When you share your whole screen, viewers see the desktop behind Mynah instead of its windows. Windows does not guarantee this for every capture tool, so check with a test call first. The taskbar button stays visible, and sharing a single app window is still the surest way to keep other windows private.",
+  "blacked-out": "This version of Windows shows a black rectangle in place of Mynah's windows on a shared screen. Windows 10 version 2004 or later leaves them out completely.",
+  unsupported: "Not known to work on this system: Mynah's windows may still appear on a shared screen.",
+};
+
 function showProvider(): void {
   const id = $<HTMLSelectElement>("provider").value;
   $("provider-chatgpt").hidden = id !== "chatgpt";
@@ -448,6 +455,8 @@ async function renderSettings(): Promise<void> {
   $<HTMLInputElement>("auto-answer").checked = settings.autoAnswer;
   $<HTMLInputElement>("always-on-top").checked = settings.alwaysOnTop;
   $<HTMLInputElement>("opacity").value = String(settings.opacity);
+  $<HTMLInputElement>("hide-from-capture").checked = settings.hideFromCapture;
+  $("hide-from-capture-note").textContent = CAPTURE_NOTE[settings.captureProtection];
   $<HTMLInputElement>("detect-meetings").checked = settings.detectMeetings;
   $<HTMLInputElement>("model-dir").value = settings.modelDir;
   $<HTMLInputElement>("mock-questions").value = String(settings.mockQuestions);
@@ -521,6 +530,7 @@ $("btn-settings-save").addEventListener("click", async () => {
     autoAnswer: $<HTMLInputElement>("auto-answer").checked,
     alwaysOnTop: $<HTMLInputElement>("always-on-top").checked,
     opacity: Number($<HTMLInputElement>("opacity").value),
+    hideFromCapture: $<HTMLInputElement>("hide-from-capture").checked,
     detectMeetings: $<HTMLInputElement>("detect-meetings").checked,
     modelDir: $<HTMLInputElement>("model-dir").value.trim(),
     interviewerVoice: $<HTMLSelectElement>("voice").value,

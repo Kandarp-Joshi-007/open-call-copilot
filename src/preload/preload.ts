@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from "electron";
 import type { MainEvent, MynahApi } from "../shared/types";
 
-const events: MainEvent[] = ["segment", "answer", "stt-status", "sessions-changed", "speak", "auto-answer", "ask-ai", "meeting-detected", "open-session"];
+const events: MainEvent[] = ["segment", "answer", "stt-status", "sessions-changed", "speak", "auto-answer", "ask-ai", "meeting-detected", "open-session", "settings-changed"];
 const invoke = (channel: string) => (...args: unknown[]) => ipcRenderer.invoke(channel, ...args);
 
 const api: MynahApi = {
