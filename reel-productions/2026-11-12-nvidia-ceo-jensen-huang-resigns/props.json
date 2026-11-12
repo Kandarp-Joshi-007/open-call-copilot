@@ -1,0 +1,1878 @@
+{
+  "meta": {
+    "title": "Nvidia CEO Jensen Huang resigns",
+    "mode": "newsroom",
+    "theme": "ink",
+    "accent": "#FF3B3B",
+    "captionStyle": "pill",
+    "layout": "faceless",
+    "banner": {
+      "kicker": "BREAKING",
+      "text": "Jensen Huang *resigns* as Nvidia CEO"
+    }
+  },
+  "durationSec": 74.78,
+  "fps": 30,
+  "audio": {
+    "vo": "vo.mp3",
+    "music": "music.mp3",
+    "musicVolume": 0.3,
+    "duckTo": 0.13,
+    "sfx": [
+      {
+        "t": 3.6149999999999998,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 7.194,
+        "name": "pop",
+        "vol": 0.45
+      },
+      {
+        "t": 8.831,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 13.882,
+        "name": "swipe",
+        "vol": 0.3
+      },
+      {
+        "t": 15.738999999999999,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 20.301000000000002,
+        "name": "swipe",
+        "vol": 0.35
+      },
+      {
+        "t": 23.957,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 27.099,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 26.009,
+        "name": "riser",
+        "vol": 0.3
+      },
+      {
+        "t": 28.400000000000002,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 32.579,
+        "name": "pop",
+        "vol": 0.45
+      },
+      {
+        "t": 36.083999999999996,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 39.841,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 43.909,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 47.354,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 47.464,
+        "name": "impact",
+        "vol": 0.5
+      },
+      {
+        "t": 48.265,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 52.75,
+        "name": "swipe",
+        "vol": 0.3
+      },
+      {
+        "t": 55.135999999999996,
+        "name": "pop",
+        "vol": 0.45
+      },
+      {
+        "t": 59.997,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 64.902,
+        "name": "swipe",
+        "vol": 0.35
+      },
+      {
+        "t": 68.689,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 71.685,
+        "name": "whoosh",
+        "vol": 0.28
+      },
+      {
+        "t": 73.295,
+        "name": "ding",
+        "vol": 0.35
+      }
+    ]
+  },
+  "words": [
+    {
+      "w": "Jensen",
+      "s": 0.0,
+      "e": 0.308
+    },
+    {
+      "w": "Huang",
+      "s": 0.308,
+      "e": 0.548
+    },
+    {
+      "w": "just",
+      "s": 0.548,
+      "e": 1.011
+    },
+    {
+      "w": "resigned",
+      "s": 1.011,
+      "e": 1.422
+    },
+    {
+      "w": "as",
+      "s": 1.422,
+      "e": 1.748
+    },
+    {
+      "w": "Nvidia's",
+      "s": 1.748,
+      "e": 2.022
+    },
+    {
+      "w": "CEO.",
+      "s": 2.022,
+      "e": 2.502
+    },
+    {
+      "w": "Effective",
+      "s": 2.733,
+      "e": 3.078
+    },
+    {
+      "w": "immediately.",
+      "s": 3.078,
+      "e": 3.386
+    },
+    {
+      "w": "Nvidia's",
+      "s": 3.675,
+      "e": 4.104
+    },
+    {
+      "w": "board",
+      "s": 4.104,
+      "e": 4.292
+    },
+    {
+      "w": "says",
+      "s": 4.292,
+      "e": 4.566
+    },
+    {
+      "w": "Jensen",
+      "s": 4.566,
+      "e": 5.046
+    },
+    {
+      "w": "Huang",
+      "s": 5.046,
+      "e": 5.372
+    },
+    {
+      "w": "resigns,",
+      "s": 5.372,
+      "e": 6.023
+    },
+    {
+      "w": "after",
+      "s": 6.023,
+      "e": 6.243
+    },
+    {
+      "w": "thirty-three",
+      "s": 6.243,
+      "e": 6.603
+    },
+    {
+      "w": "years.",
+      "s": 6.603,
+      "e": 6.963
+    },
+    {
+      "w": "The",
+      "s": 7.254,
+      "e": 7.297
+    },
+    {
+      "w": "stock",
+      "s": 7.289,
+      "e": 7.443
+    },
+    {
+      "w": "opened",
+      "s": 7.443,
+      "e": 7.7
+    },
+    {
+      "w": "down",
+      "s": 7.7,
+      "e": 7.94
+    },
+    {
+      "w": "fourteen",
+      "s": 7.94,
+      "e": 8.42
+    },
+    {
+      "w": "percent.",
+      "s": 8.42,
+      "e": 8.891
+    },
+    {
+      "w": "CNBC",
+      "s": 8.891,
+      "e": 9.403
+    },
+    {
+      "w": "reports",
+      "s": 9.403,
+      "e": 9.849
+    },
+    {
+      "w": "Nvidia",
+      "s": 9.849,
+      "e": 10.312
+    },
+    {
+      "w": "stock",
+      "s": 10.312,
+      "e": 10.672
+    },
+    {
+      "w": "falls",
+      "s": 10.672,
+      "e": 11.014
+    },
+    {
+      "w": "nearly",
+      "s": 11.014,
+      "e": 11.34
+    },
+    {
+      "w": "ten",
+      "s": 11.34,
+      "e": 11.657
+    },
+    {
+      "w": "percent,",
+      "s": 11.657,
+      "e": 11.974
+    },
+    {
+      "w": "to",
+      "s": 11.974,
+      "e": 12.275
+    },
+    {
+      "w": "below",
+      "s": 12.275,
+      "e": 12.549
+    },
+    {
+      "w": "four",
+      "s": 12.549,
+      "e": 13.063
+    },
+    {
+      "w": "trillion",
+      "s": 13.063,
+      "e": 13.355
+    },
+    {
+      "w": "dollars.",
+      "s": 13.355,
+      "e": 13.942
+    },
+    {
+      "w": "Here's",
+      "s": 13.942,
+      "e": 14.126
+    },
+    {
+      "w": "how",
+      "s": 14.126,
+      "e": 14.229
+    },
+    {
+      "w": "it",
+      "s": 14.229,
+      "e": 14.331
+    },
+    {
+      "w": "unraveled",
+      "s": 14.331,
+      "e": 14.948
+    },
+    {
+      "w": "in",
+      "s": 14.948,
+      "e": 15.017
+    },
+    {
+      "w": "five",
+      "s": 15.017,
+      "e": 15.291
+    },
+    {
+      "w": "days.",
+      "s": 15.291,
+      "e": 15.531
+    },
+    {
+      "w": "Sunday,",
+      "s": 15.799,
+      "e": 16.039
+    },
+    {
+      "w": "Huang",
+      "s": 16.262,
+      "e": 16.462
+    },
+    {
+      "w": "admits",
+      "s": 16.462,
+      "e": 16.684
+    },
+    {
+      "w": "an",
+      "s": 16.684,
+      "e": 16.839
+    },
+    {
+      "w": "affair.",
+      "s": 16.839,
+      "e": 16.993
+    },
+    {
+      "w": "Reports",
+      "s": 17.224,
+      "e": 17.481
+    },
+    {
+      "w": "say",
+      "s": 17.481,
+      "e": 17.687
+    },
+    {
+      "w": "U.S.",
+      "s": 17.687,
+      "e": 18.098
+    },
+    {
+      "w": "intelligence",
+      "s": 18.098,
+      "e": 18.321
+    },
+    {
+      "w": "believes",
+      "s": 18.321,
+      "e": 18.784
+    },
+    {
+      "w": "she's",
+      "s": 18.784,
+      "e": 19.315
+    },
+    {
+      "w": "a",
+      "s": 19.315,
+      "e": 19.384
+    },
+    {
+      "w": "spy",
+      "s": 19.384,
+      "e": 19.641
+    },
+    {
+      "w": "for",
+      "s": 19.641,
+      "e": 19.863
+    },
+    {
+      "w": "China.",
+      "s": 19.863,
+      "e": 20.121
+    },
+    {
+      "w": "Wednesday,",
+      "s": 20.361,
+      "e": 20.618
+    },
+    {
+      "w": "the",
+      "s": 21.115,
+      "e": 21.167
+    },
+    {
+      "w": "New",
+      "s": 21.167,
+      "e": 21.304
+    },
+    {
+      "w": "York",
+      "s": 21.304,
+      "e": 21.441
+    },
+    {
+      "w": "Times",
+      "s": 21.441,
+      "e": 21.681
+    },
+    {
+      "w": "reports",
+      "s": 21.681,
+      "e": 21.955
+    },
+    {
+      "w": "a",
+      "s": 21.955,
+      "e": 22.229
+    },
+    {
+      "w": "second",
+      "s": 22.229,
+      "e": 22.538
+    },
+    {
+      "w": "relationship,",
+      "s": 22.538,
+      "e": 23.121
+    },
+    {
+      "w": "with",
+      "s": 23.121,
+      "e": 23.332
+    },
+    {
+      "w": "a",
+      "s": 23.332,
+      "e": 23.418
+    },
+    {
+      "w": "direct",
+      "s": 23.418,
+      "e": 23.641
+    },
+    {
+      "w": "report.",
+      "s": 23.641,
+      "e": 23.915
+    },
+    {
+      "w": "By",
+      "s": 24.017,
+      "e": 24.144
+    },
+    {
+      "w": "Thursday,",
+      "s": 24.144,
+      "e": 24.435
+    },
+    {
+      "w": "the",
+      "s": 24.759,
+      "e": 24.862
+    },
+    {
+      "w": "Wall",
+      "s": 24.862,
+      "e": 24.999
+    },
+    {
+      "w": "Street",
+      "s": 24.999,
+      "e": 25.17
+    },
+    {
+      "w": "Journal",
+      "s": 25.17,
+      "e": 25.427
+    },
+    {
+      "w": "says",
+      "s": 25.427,
+      "e": 25.701
+    },
+    {
+      "w": "Jensen",
+      "s": 25.701,
+      "e": 26.13
+    },
+    {
+      "w": "Huang",
+      "s": 26.13,
+      "e": 26.421
+    },
+    {
+      "w": "has",
+      "s": 26.421,
+      "e": 26.627
+    },
+    {
+      "w": "been",
+      "s": 26.627,
+      "e": 26.747
+    },
+    {
+      "w": "ousted.",
+      "s": 26.747,
+      "e": 26.987
+    },
+    {
+      "w": "But",
+      "s": 27.159,
+      "e": 27.245
+    },
+    {
+      "w": "here's",
+      "s": 27.245,
+      "e": 27.45
+    },
+    {
+      "w": "what",
+      "s": 27.45,
+      "e": 27.536
+    },
+    {
+      "w": "matters",
+      "s": 27.536,
+      "e": 27.879
+    },
+    {
+      "w": "for",
+      "s": 27.879,
+      "e": 28.05
+    },
+    {
+      "w": "your",
+      "s": 28.05,
+      "e": 28.119
+    },
+    {
+      "w": "money.",
+      "s": 28.119,
+      "e": 28.307
+    },
+    {
+      "w": "The",
+      "s": 28.46,
+      "e": 28.545
+    },
+    {
+      "w": "interim",
+      "s": 28.545,
+      "e": 28.717
+    },
+    {
+      "w": "CEO",
+      "s": 28.717,
+      "e": 29.042
+    },
+    {
+      "w": "is",
+      "s": 29.042,
+      "e": 29.574
+    },
+    {
+      "w": "finance",
+      "s": 29.574,
+      "e": 29.899
+    },
+    {
+      "w": "chief",
+      "s": 29.899,
+      "e": 30.362
+    },
+    {
+      "w": "Colette",
+      "s": 30.362,
+      "e": 30.825
+    },
+    {
+      "w": "Kress.",
+      "s": 30.825,
+      "e": 31.345
+    },
+    {
+      "w": "There's",
+      "s": 31.345,
+      "e": 31.527
+    },
+    {
+      "w": "no",
+      "s": 31.527,
+      "e": 31.647
+    },
+    {
+      "w": "permanent",
+      "s": 31.647,
+      "e": 31.972
+    },
+    {
+      "w": "successor.",
+      "s": 31.972,
+      "e": 32.401
+    },
+    {
+      "w": "More",
+      "s": 32.639,
+      "e": 32.782
+    },
+    {
+      "w": "than",
+      "s": 32.782,
+      "e": 32.902
+    },
+    {
+      "w": "a",
+      "s": 32.902,
+      "e": 33.005
+    },
+    {
+      "w": "dozen",
+      "s": 33.005,
+      "e": 33.142
+    },
+    {
+      "w": "Wall",
+      "s": 33.142,
+      "e": 33.382
+    },
+    {
+      "w": "Street",
+      "s": 33.382,
+      "e": 33.605
+    },
+    {
+      "w": "firms",
+      "s": 33.605,
+      "e": 33.93
+    },
+    {
+      "w": "downgraded",
+      "s": 33.93,
+      "e": 34.53
+    },
+    {
+      "w": "the",
+      "s": 34.53,
+      "e": 34.616
+    },
+    {
+      "w": "stock",
+      "s": 34.616,
+      "e": 34.907
+    },
+    {
+      "w": "or",
+      "s": 34.907,
+      "e": 35.198
+    },
+    {
+      "w": "cut",
+      "s": 35.198,
+      "e": 35.404
+    },
+    {
+      "w": "their",
+      "s": 35.404,
+      "e": 35.541
+    },
+    {
+      "w": "targets.",
+      "s": 35.541,
+      "e": 35.867
+    },
+    {
+      "w": "Bernstein",
+      "s": 36.144,
+      "e": 36.419
+    },
+    {
+      "w": "cut",
+      "s": 36.419,
+      "e": 36.727
+    },
+    {
+      "w": "its",
+      "s": 36.727,
+      "e": 36.95
+    },
+    {
+      "w": "price",
+      "s": 36.95,
+      "e": 37.224
+    },
+    {
+      "w": "target",
+      "s": 37.224,
+      "e": 37.533
+    },
+    {
+      "w": "in",
+      "s": 37.533,
+      "e": 37.67
+    },
+    {
+      "w": "half,",
+      "s": 37.67,
+      "e": 37.978
+    },
+    {
+      "w": "from",
+      "s": 37.978,
+      "e": 38.317
+    },
+    {
+      "w": "four",
+      "s": 38.317,
+      "e": 38.455
+    },
+    {
+      "w": "hundred",
+      "s": 38.455,
+      "e": 38.592
+    },
+    {
+      "w": "dollars",
+      "s": 38.592,
+      "e": 38.729
+    },
+    {
+      "w": "to",
+      "s": 38.729,
+      "e": 39.346
+    },
+    {
+      "w": "two",
+      "s": 39.346,
+      "e": 39.723
+    },
+    {
+      "w": "hundred.",
+      "s": 39.723,
+      "e": 39.901
+    },
+    {
+      "w": "Meanwhile,",
+      "s": 39.901,
+      "e": 40.28
+    },
+    {
+      "w": "AMD",
+      "s": 40.487,
+      "e": 40.898
+    },
+    {
+      "w": "and",
+      "s": 40.898,
+      "e": 41.173
+    },
+    {
+      "w": "Broadcom",
+      "s": 41.173,
+      "e": 41.567
+    },
+    {
+      "w": "stocks",
+      "s": 41.567,
+      "e": 41.79
+    },
+    {
+      "w": "jump,",
+      "s": 41.79,
+      "e": 42.167
+    },
+    {
+      "w": "as",
+      "s": 42.167,
+      "e": 42.444
+    },
+    {
+      "w": "money",
+      "s": 42.444,
+      "e": 42.684
+    },
+    {
+      "w": "moves",
+      "s": 42.684,
+      "e": 42.924
+    },
+    {
+      "w": "to",
+      "s": 42.924,
+      "e": 43.078
+    },
+    {
+      "w": "Nvidia's",
+      "s": 43.078,
+      "e": 43.507
+    },
+    {
+      "w": "rivals.",
+      "s": 43.507,
+      "e": 43.73
+    },
+    {
+      "w": "Both",
+      "s": 43.969,
+      "e": 44.191
+    },
+    {
+      "w": "gained",
+      "s": 44.191,
+      "e": 44.397
+    },
+    {
+      "w": "about",
+      "s": 44.397,
+      "e": 44.603
+    },
+    {
+      "w": "six",
+      "s": 44.603,
+      "e": 44.877
+    },
+    {
+      "w": "percent,",
+      "s": 44.877,
+      "e": 45.151
+    },
+    {
+      "w": "while",
+      "s": 45.151,
+      "e": 45.464
+    },
+    {
+      "w": "Nvidia-backed",
+      "s": 45.464,
+      "e": 46.201
+    },
+    {
+      "w": "CoreWeave",
+      "s": 46.201,
+      "e": 46.715
+    },
+    {
+      "w": "sank",
+      "s": 46.715,
+      "e": 46.938
+    },
+    {
+      "w": "twelve.",
+      "s": 46.938,
+      "e": 47.414
+    },
+    {
+      "w": "But",
+      "s": 47.414,
+      "e": 47.521
+    },
+    {
+      "w": "here's",
+      "s": 47.521,
+      "e": 47.744
+    },
+    {
+      "w": "the",
+      "s": 47.744,
+      "e": 47.813
+    },
+    {
+      "w": "catch.",
+      "s": 47.813,
+      "e": 48.053
+    },
+    {
+      "w": "Analysts",
+      "s": 48.325,
+      "e": 48.702
+    },
+    {
+      "w": "say",
+      "s": 48.702,
+      "e": 48.873
+    },
+    {
+      "w": "the",
+      "s": 48.873,
+      "e": 49.028
+    },
+    {
+      "w": "business",
+      "s": 49.028,
+      "e": 49.302
+    },
+    {
+      "w": "itself",
+      "s": 49.302,
+      "e": 49.747
+    },
+    {
+      "w": "didn't",
+      "s": 49.747,
+      "e": 50.142
+    },
+    {
+      "w": "change.",
+      "s": 50.142,
+      "e": 50.399
+    },
+    {
+      "w": "Same",
+      "s": 50.626,
+      "e": 50.831
+    },
+    {
+      "w": "chips.",
+      "s": 50.831,
+      "e": 51.088
+    },
+    {
+      "w": "Same",
+      "s": 51.318,
+      "e": 51.541
+    },
+    {
+      "w": "customers.",
+      "s": 51.541,
+      "e": 51.935
+    },
+    {
+      "w": "Same",
+      "s": 52.242,
+      "e": 52.345
+    },
+    {
+      "w": "demand.",
+      "s": 52.345,
+      "e": 52.602
+    },
+    {
+      "w": "What",
+      "s": 52.81,
+      "e": 52.896
+    },
+    {
+      "w": "changed",
+      "s": 52.896,
+      "e": 53.238
+    },
+    {
+      "w": "is",
+      "s": 53.238,
+      "e": 53.547
+    },
+    {
+      "w": "the",
+      "s": 53.547,
+      "e": 53.65
+    },
+    {
+      "w": "premium",
+      "s": 53.65,
+      "e": 53.941
+    },
+    {
+      "w": "investors",
+      "s": 53.941,
+      "e": 54.335
+    },
+    {
+      "w": "paid",
+      "s": 54.335,
+      "e": 54.644
+    },
+    {
+      "w": "for",
+      "s": 54.644,
+      "e": 54.798
+    },
+    {
+      "w": "Jensen.",
+      "s": 54.798,
+      "e": 55.089
+    },
+    {
+      "w": "One",
+      "s": 55.196,
+      "e": 55.393
+    },
+    {
+      "w": "analyst",
+      "s": 55.393,
+      "e": 55.633
+    },
+    {
+      "w": "values",
+      "s": 55.633,
+      "e": 56.044
+    },
+    {
+      "w": "Nvidia",
+      "s": 56.044,
+      "e": 56.489
+    },
+    {
+      "w": "twenty-five",
+      "s": 56.489,
+      "e": 57.055
+    },
+    {
+      "w": "percent",
+      "s": 57.055,
+      "e": 57.621
+    },
+    {
+      "w": "lower",
+      "s": 57.621,
+      "e": 57.912
+    },
+    {
+      "w": "without",
+      "s": 57.912,
+      "e": 58.186
+    },
+    {
+      "w": "him.",
+      "s": 58.186,
+      "e": 58.409
+    },
+    {
+      "w": "So",
+      "s": 58.527,
+      "e": 58.613
+    },
+    {
+      "w": "here's",
+      "s": 58.613,
+      "e": 58.801
+    },
+    {
+      "w": "exactly",
+      "s": 58.801,
+      "e": 59.23
+    },
+    {
+      "w": "what",
+      "s": 59.23,
+      "e": 59.367
+    },
+    {
+      "w": "happens",
+      "s": 59.367,
+      "e": 59.641
+    },
+    {
+      "w": "next.",
+      "s": 59.641,
+      "e": 59.881
+    },
+    {
+      "w": "Tuesday:",
+      "s": 60.057,
+      "e": 60.314
+    },
+    {
+      "w": "earnings,",
+      "s": 60.642,
+      "e": 60.813
+    },
+    {
+      "w": "on",
+      "s": 60.813,
+      "e": 61.105
+    },
+    {
+      "w": "schedule.",
+      "s": 61.105,
+      "e": 61.327
+    },
+    {
+      "w": "Wednesday:",
+      "s": 61.628,
+      "e": 61.868
+    },
+    {
+      "w": "Kress",
+      "s": 61.868,
+      "e": 62.333
+    },
+    {
+      "w": "addresses",
+      "s": 62.333,
+      "e": 62.762
+    },
+    {
+      "w": "the",
+      "s": 62.762,
+      "e": 62.916
+    },
+    {
+      "w": "company.",
+      "s": 62.916,
+      "e": 63.173
+    },
+    {
+      "w": "Then,",
+      "s": 63.341,
+      "e": 63.547
+    },
+    {
+      "w": "the",
+      "s": 63.547,
+      "e": 63.745
+    },
+    {
+      "w": "search",
+      "s": 63.745,
+      "e": 63.916
+    },
+    {
+      "w": "for",
+      "s": 63.916,
+      "e": 64.087
+    },
+    {
+      "w": "a",
+      "s": 64.087,
+      "e": 64.156
+    },
+    {
+      "w": "permanent",
+      "s": 64.156,
+      "e": 64.379
+    },
+    {
+      "w": "CEO.",
+      "s": 64.379,
+      "e": 64.704
+    },
+    {
+      "w": "Until",
+      "s": 64.962,
+      "e": 65.146
+    },
+    {
+      "w": "that",
+      "s": 65.146,
+      "e": 65.351
+    },
+    {
+      "w": "name",
+      "s": 65.351,
+      "e": 65.557
+    },
+    {
+      "w": "is",
+      "s": 65.557,
+      "e": 65.66
+    },
+    {
+      "w": "announced,",
+      "s": 65.66,
+      "e": 65.951
+    },
+    {
+      "w": "this",
+      "s": 66.215,
+      "e": 66.352
+    },
+    {
+      "w": "stock",
+      "s": 66.352,
+      "e": 66.541
+    },
+    {
+      "w": "trades",
+      "s": 66.541,
+      "e": 66.815
+    },
+    {
+      "w": "on",
+      "s": 66.815,
+      "e": 66.935
+    },
+    {
+      "w": "one",
+      "s": 66.935,
+      "e": 67.175
+    },
+    {
+      "w": "question:",
+      "s": 67.175,
+      "e": 67.552
+    },
+    {
+      "w": "who",
+      "s": 67.738,
+      "e": 67.806
+    },
+    {
+      "w": "replaces",
+      "s": 67.806,
+      "e": 68.149
+    },
+    {
+      "w": "Jensen?",
+      "s": 68.149,
+      "e": 68.56
+    },
+    {
+      "w": "And",
+      "s": 68.749,
+      "e": 68.8
+    },
+    {
+      "w": "the",
+      "s": 68.8,
+      "e": 68.869
+    },
+    {
+      "w": "AI",
+      "s": 68.869,
+      "e": 69.075
+    },
+    {
+      "w": "trade",
+      "s": 69.075,
+      "e": 69.4
+    },
+    {
+      "w": "survives.",
+      "s": 69.4,
+      "e": 69.691
+    },
+    {
+      "w": "The",
+      "s": 70.08,
+      "e": 70.149
+    },
+    {
+      "w": "Nasdaq",
+      "s": 70.149,
+      "e": 70.577
+    },
+    {
+      "w": "was",
+      "s": 70.577,
+      "e": 70.663
+    },
+    {
+      "w": "green",
+      "s": 70.663,
+      "e": 70.903
+    },
+    {
+      "w": "by",
+      "s": 70.903,
+      "e": 71.143
+    },
+    {
+      "w": "late",
+      "s": 71.143,
+      "e": 71.332
+    },
+    {
+      "w": "morning.",
+      "s": 71.332,
+      "e": 71.554
+    },
+    {
+      "w": "Would",
+      "s": 71.745,
+      "e": 71.83
+    },
+    {
+      "w": "you",
+      "s": 71.83,
+      "e": 71.916
+    },
+    {
+      "w": "buy",
+      "s": 71.916,
+      "e": 72.019
+    },
+    {
+      "w": "this",
+      "s": 72.019,
+      "e": 72.139
+    },
+    {
+      "w": "dip,",
+      "s": 72.139,
+      "e": 72.293
+    },
+    {
+      "w": "or",
+      "s": 72.293,
+      "e": 72.462
+    },
+    {
+      "w": "stay",
+      "s": 72.462,
+      "e": 72.667
+    },
+    {
+      "w": "out?",
+      "s": 72.667,
+      "e": 72.89
+    },
+    {
+      "w": "Comment",
+      "s": 72.969,
+      "e": 73.158
+    },
+    {
+      "w": "below.",
+      "s": 73.158,
+      "e": 73.38
+    }
+  ],
+  "emphasis": [
+    "resigned",
+    "fourteen",
+    "ousted",
+    "money",
+    "half",
+    "rivals",
+    "catch",
+    "premium",
+    "tuesday",
+    "replaces",
+    "survives"
+  ],
+  "scenes": [
+    {
+      "id": "s1",
+      "type": "title",
+      "start": 0.0,
+      "end": 3.675,
+      "enter": "cut",
+      "label": null,
+      "props": {
+        "kicker": "NVIDIA · 12 NOV 2026",
+        "lines": [
+          "Jensen Huang",
+          "is [out]"
+        ],
+        "size": 128
+      }
+    },
+    {
+      "id": "s2",
+      "type": "source",
+      "start": 3.675,
+      "end": 7.254,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "src": "img/shot-nvidia.png",
+        "marks": [
+          {
+            "text": "Jensen Huang Resigns",
+            "rects": [
+              {
+                "x": 0.1187,
+                "y": 0.9449,
+                "w": 0.4375,
+                "h": 0.0458
+              }
+            ],
+            "style": "marker"
+          }
+        ],
+        "focus": {
+          "x": 0.1187,
+          "y": 0.9449,
+          "w": 0.4375,
+          "h": 0.0458
+        },
+        "url": "nvidianews.nvidia.com",
+        "fallback": "Nvidia: Huang has resigned",
+        "aspect": 0.8194,
+        "highlightAt": [
+          0.771
+        ]
+      }
+    },
+    {
+      "id": "s3",
+      "type": "stat",
+      "start": 7.254,
+      "end": 8.891,
+      "enter": "pop",
+      "label": null,
+      "props": {
+        "value": 14,
+        "prefix": "−",
+        "suffix": "%",
+        "label": "NVDA at the open",
+        "source": "Yahoo Finance · 12 Nov 2026"
+      }
+    },
+    {
+      "id": "s4",
+      "type": "source",
+      "start": 8.891,
+      "end": 13.942,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "src": "img/shot-cnbc.png",
+        "marks": [
+          {
+            "text": "Nvidia stock falls nearly 10%",
+            "rects": [
+              {
+                "x": 0.0563,
+                "y": 0.367,
+                "w": 0.8625,
+                "h": 0.0871
+              },
+              {
+                "x": 0.0547,
+                "y": 0.4596,
+                "w": 0.1563,
+                "h": 0.0754
+              }
+            ],
+            "style": "marker"
+          }
+        ],
+        "focus": {
+          "x": 0.0547,
+          "y": 0.367,
+          "w": 0.8641,
+          "h": 0.168
+        },
+        "url": "cnbc.com",
+        "fallback": "CNBC: Nvidia stock falls nearly 10%",
+        "aspect": 1.0,
+        "highlightAt": [
+          0.838
+        ]
+      }
+    },
+    {
+      "id": "s5",
+      "type": "title",
+      "start": 13.942,
+      "end": 15.799,
+      "enter": "blur",
+      "label": null,
+      "props": {
+        "kicker": "THE TIMELINE",
+        "lines": [
+          "5 days.",
+          "*2 scandals.*"
+        ]
+      }
+    },
+    {
+      "id": "s6",
+      "type": "list",
+      "start": 15.799,
+      "end": 20.361,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "title": "Sunday · 8 Nov",
+        "items": [
+          "Huang admits an affair",
+          "FT: U.S. officials suspect a China spy"
+        ],
+        "revealAt": [
+          0.343,
+          3.465
+        ]
+      }
+    },
+    {
+      "id": "s7",
+      "type": "title",
+      "start": 20.361,
+      "end": 24.017,
+      "enter": "slide",
+      "label": null,
+      "props": {
+        "kicker": "WEDNESDAY · 11 NOV · NYT REPORT",
+        "lines": [
+          "A *second*",
+          "relationship"
+        ],
+        "sub": "with a direct report, the Times says"
+      }
+    },
+    {
+      "id": "s8",
+      "type": "source",
+      "start": 24.017,
+      "end": 27.159,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "src": "img/shot-wsj.png",
+        "marks": [
+          {
+            "text": "Jensen Huang Has Been Ousted as Nvidia CEO",
+            "rects": [
+              {
+                "x": 0.0152,
+                "y": 0.5864,
+                "w": 0.8851,
+                "h": 0.1716
+              },
+              {
+                "x": 0.0226,
+                "y": 0.7541,
+                "w": 0.802,
+                "h": 0.1305
+              }
+            ],
+            "style": "marker"
+          }
+        ],
+        "focus": {
+          "x": 0.0152,
+          "y": 0.5864,
+          "w": 0.8851,
+          "h": 0.2982
+        },
+        "url": "wsj.com",
+        "fallback": "WSJ: Jensen Huang Has Been Ousted",
+        "aspect": 1.3758,
+        "highlightAt": [
+          1.564
+        ]
+      }
+    },
+    {
+      "id": "s9",
+      "type": "punch",
+      "start": 27.159,
+      "end": 28.46,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "text": "YOUR MONEY",
+        "style": "big",
+        "tone": "accent"
+      }
+    },
+    {
+      "id": "s10",
+      "type": "title",
+      "start": 28.46,
+      "end": 32.639,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "kicker": "INTERIM CEO",
+        "lines": [
+          "Colette Kress"
+        ],
+        "sub": "CFO since 2013 · no permanent successor named"
+      }
+    },
+    {
+      "id": "s11",
+      "type": "stat",
+      "start": 32.639,
+      "end": 36.144,
+      "enter": "pop",
+      "label": null,
+      "props": {
+        "value": 13,
+        "label": "firms downgraded or cut targets",
+        "sub": "in one morning",
+        "source": "CNBC · 12 Nov 2026"
+      }
+    },
+    {
+      "id": "s12",
+      "type": "bars",
+      "start": 36.144,
+      "end": 39.901,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "title": "Bernstein price target",
+        "unit": "$",
+        "bars": [
+          {
+            "label": "Before",
+            "value": 400
+          },
+          {
+            "label": "Now",
+            "value": 200,
+            "highlight": true
+          }
+        ],
+        "note": "Source: CNBC, 12 Nov 2026"
+      }
+    },
+    {
+      "id": "s13",
+      "type": "source",
+      "start": 39.901,
+      "end": 43.969,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "src": "img/shot-yahoo.png",
+        "marks": [
+          {
+            "text": "AMD, Broadcom stocks jump",
+            "rects": [
+              {
+                "x": 0.0414,
+                "y": 0.6895,
+                "w": 0.7521,
+                "h": 0.0739
+              },
+              {
+                "x": 0.0333,
+                "y": 0.7724,
+                "w": 0.1786,
+                "h": 0.0981
+              }
+            ],
+            "style": "marker"
+          }
+        ],
+        "focus": {
+          "x": 0.0333,
+          "y": 0.6895,
+          "w": 0.7602,
+          "h": 0.181
+        },
+        "url": "finance.yahoo.com",
+        "fallback": "Yahoo Finance: AMD, Broadcom stocks jump",
+        "aspect": 1.1613,
+        "highlightAt": [
+          0.466
+        ]
+      }
+    },
+    {
+      "id": "s14",
+      "type": "versus",
+      "start": 43.969,
+      "end": 47.414,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "leftTag": "DOWN",
+        "rightTag": "UP",
+        "left": {
+          "title": "Losers",
+          "points": [
+            "Nvidia −14%",
+            "CoreWeave −12%",
+            "Nebius −19%"
+          ]
+        },
+        "right": {
+          "title": "Winners",
+          "points": [
+            "AMD +5.9%",
+            "Broadcom +5.9%"
+          ]
+        }
+      }
+    },
+    {
+      "id": "s15",
+      "type": "punch",
+      "start": 47.414,
+      "end": 48.325,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "text": "THE CATCH",
+        "style": "stamp"
+      }
+    },
+    {
+      "id": "s16",
+      "type": "list",
+      "start": 48.325,
+      "end": 52.81,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "title": "What didn't change",
+        "check": true,
+        "items": [
+          "Same chips",
+          "Same customers",
+          "Same demand"
+        ],
+        "revealAt": [
+          2.181,
+          2.873,
+          3.797
+        ]
+      }
+    },
+    {
+      "id": "s17",
+      "type": "title",
+      "start": 52.81,
+      "end": 55.196,
+      "enter": "blur",
+      "label": null,
+      "props": {
+        "lines": [
+          "The *Jensen premium*",
+          "is gone"
+        ],
+        "sub": "Stifel: \"The issue is the multiple.\""
+      }
+    },
+    {
+      "id": "s18",
+      "type": "stat",
+      "start": 55.196,
+      "end": 58.527,
+      "enter": "pop",
+      "label": null,
+      "props": {
+        "value": 25,
+        "prefix": "−",
+        "suffix": "%",
+        "label": "fair value without Huang",
+        "sub": "$300 → $225",
+        "source": "Yorkville Ives · via Seeking Alpha"
+      }
+    },
+    {
+      "id": "s19",
+      "type": "title",
+      "start": 58.527,
+      "end": 60.057,
+      "enter": "cut",
+      "label": null,
+      "props": {
+        "lines": [
+          "What happens",
+          "[next]"
+        ]
+      }
+    },
+    {
+      "id": "s20",
+      "type": "list",
+      "start": 60.057,
+      "end": 64.962,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "title": "Locked in",
+        "items": [
+          "TUE 17 NOV · Q3 earnings",
+          "WED 18 NOV · all-company meeting",
+          "NEXT · permanent CEO search"
+        ],
+        "revealAt": [
+          0.0,
+          1.451,
+          3.568
+        ]
+      }
+    },
+    {
+      "id": "s21",
+      "type": "title",
+      "start": 64.962,
+      "end": 68.749,
+      "enter": "slide",
+      "label": null,
+      "props": {
+        "kicker": "OUR CALL",
+        "lines": [
+          "Who replaces",
+          "[Jensen?]"
+        ],
+        "sub": "That answer moves the stock. Nothing else."
+      }
+    },
+    {
+      "id": "s22",
+      "type": "title",
+      "start": 68.749,
+      "end": 71.745,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "kicker": "NASDAQ +0.4% · LATE MORNING",
+        "lines": [
+          "AI trade:",
+          "*still standing*"
+        ],
+        "sub": "Source: Yahoo Finance / Reuters, 12 Nov 2026"
+      }
+    },
+    {
+      "id": "s23",
+      "type": "cta",
+      "start": 71.745,
+      "end": 74.78,
+      "enter": "push",
+      "label": null,
+      "props": {
+        "kind": "comment",
+        "headline": "Buy the dip, or stay out?",
+        "line": "Not financial advice",
+        "keyword": "Buying the dip.",
+        "sent": "Your call. Tell us why."
+      }
+    }
+  ]
+}

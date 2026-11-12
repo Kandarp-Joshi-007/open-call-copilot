@@ -1,0 +1,11 @@
+# intermediates that can be regenerated
+*/out/draft.mp4
+*/out/stills/
+*/out/qa/
+*/research/captures/up-*.png
+*/research/captures/prev-*.jpg
+*/research/captures/montage.jpg
+*/research/captures/shots.jpg
+*/research/captures/nvidia760.png
+*/public/vo_raw.mp3
+*/words_raw.json

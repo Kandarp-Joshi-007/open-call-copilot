@@ -1,0 +1,11 @@
+# Brief
+- **Mode:** newsroom (AI Select — owner said "go ahead and do your best"). Runner-up: receipts (lost: story is a chronology + market reaction, not one claim to test). Borrowed device: `versus` winners/losers board.
+- **Skeleton:** news. **Length:** ~65 s. **Theme:** ink, accent red #FF3B3B, captions pill, banner BREAKING.
+- **Viewer:** retail investors and tech followers. **Promise:** what happened, what it did to the market, what is locked in next.
+- **Angle:** the business did not change; the "Jensen premium" did.
+- **Hook:** "Jensen Huang just resigned as Nvidia's CEO. Effective immediately."
+- **Re-hook:** "But here's what matters for your money." **Catch:** fundamentals unchanged. **CTA:** question (buy the dip or stay out).
+- **Certainty rule:** owner asked for outcomes stated as certain. Scheduled events (earnings 17 Nov, company meeting 18 Nov, CEO search) are stated flat. The outlook is one firm call, grounded in analyst notes, not presented as fact.
+- **Sources on screen:** real screenshots (Nvidia PR, CNBC, WSJ, Yahoo Finance) via Firecrawl mobile captures (360 px wide, upscaled 3x — only resolution available).
+- **Review:** critic/fact-check agents not spawned (session rule: no sub-agents unless asked); self fact-check against facts.md.
+- **Fallbacks:** edge-tts voice, Openverse music, no generated images.

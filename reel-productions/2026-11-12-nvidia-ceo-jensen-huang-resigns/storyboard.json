@@ -1,0 +1,352 @@
+{
+ "meta": {
+  "title": "Nvidia CEO Jensen Huang resigns",
+  "mode": "newsroom",
+  "theme": "ink",
+  "accent": "#FF3B3B",
+  "captionStyle": "pill",
+  "layout": "faceless",
+  "banner": {
+   "kicker": "BREAKING",
+   "text": "Jensen Huang *resigns* as Nvidia CEO"
+  }
+ },
+ "skeleton": "news",
+ "language": "en",
+ "music": {
+  "prompt": "tense minimal news pulse, 120 bpm, low synth, ticking hi-hat, no vocals",
+  "mood": "tense news",
+  "query": "tense electronic pulse"
+ },
+ "musicVolume": 0.3,
+ "emphasis": [
+  "resigned",
+  "fourteen",
+  "ousted",
+  "money",
+  "half",
+  "rivals",
+  "catch",
+  "premium",
+  "Tuesday",
+  "replaces",
+  "survives"
+ ],
+ "scenes": [
+  {
+   "id": "s1",
+   "vo": "Jensen Huang just resigned as Nvidia's CEO. Effective immediately.",
+   "type": "title",
+   "enter": "cut",
+   "props": {
+    "kicker": "NVIDIA · 12 NOV 2026",
+    "lines": [
+     "Jensen Huang",
+     "is [out]"
+    ],
+    "size": 128
+   }
+  },
+  {
+   "id": "s2",
+   "vo": "Nvidia's board says Jensen Huang resigns, after thirty-three years.",
+   "type": "source",
+   "props": {
+    "shot": "img/shot-nvidia.json",
+    "url": "nvidianews.nvidia.com",
+    "fallback": "Nvidia: Huang has resigned"
+   }
+  },
+  {
+   "id": "s3",
+   "vo": "The stock opened down fourteen percent.",
+   "type": "stat",
+   "enter": "pop",
+   "props": {
+    "value": 14,
+    "prefix": "−",
+    "suffix": "%",
+    "label": "NVDA at the open",
+    "source": "Yahoo Finance · 12 Nov 2026"
+   }
+  },
+  {
+   "id": "s4",
+   "vo": "CNBC reports Nvidia stock falls nearly ten percent, to below four trillion dollars.",
+   "type": "source",
+   "props": {
+    "shot": "img/shot-cnbc.json",
+    "url": "cnbc.com",
+    "fallback": "CNBC: Nvidia stock falls nearly 10%"
+   }
+  },
+  {
+   "id": "s5",
+   "vo": "Here's how it unraveled in five days.",
+   "type": "title",
+   "enter": "blur",
+   "props": {
+    "kicker": "THE TIMELINE",
+    "lines": [
+     "5 days.",
+     "*2 scandals.*"
+    ]
+   }
+  },
+  {
+   "id": "s6",
+   "vo": "Sunday, Huang admits an affair. Reports say U.S. intelligence believes she's a spy for China.",
+   "type": "list",
+   "props": {
+    "title": "Sunday · 8 Nov",
+    "items": [
+     "Huang admits an affair",
+     "FT: U.S. officials suspect a China spy"
+    ]
+   }
+  },
+  {
+   "id": "s7",
+   "vo": "Wednesday, the New York Times reports a second relationship, with a direct report.",
+   "type": "title",
+   "enter": "slide",
+   "props": {
+    "kicker": "WEDNESDAY · 11 NOV · NYT REPORT",
+    "lines": [
+     "A *second*",
+     "relationship"
+    ],
+    "sub": "with a direct report, the Times says"
+   }
+  },
+  {
+   "id": "s8",
+   "vo": "By Thursday, the Wall Street Journal says Jensen Huang has been ousted.",
+   "type": "source",
+   "props": {
+    "shot": "img/shot-wsj.json",
+    "url": "wsj.com",
+    "fallback": "WSJ: Jensen Huang Has Been Ousted"
+   }
+  },
+  {
+   "id": "s9",
+   "vo": "But here's what matters for your money.",
+   "type": "punch",
+   "rehook": true,
+   "props": {
+    "text": "YOUR MONEY",
+    "style": "big",
+    "tone": "accent"
+   }
+  },
+  {
+   "id": "s10",
+   "vo": "The interim CEO is finance chief Colette Kress. There's no permanent successor.",
+   "type": "title",
+   "props": {
+    "kicker": "INTERIM CEO",
+    "lines": [
+     "Colette Kress"
+    ],
+    "sub": "CFO since 2013 · no permanent successor named"
+   }
+  },
+  {
+   "id": "s11",
+   "vo": "More than a dozen Wall Street firms downgraded the stock or cut their targets.",
+   "type": "stat",
+   "enter": "pop",
+   "props": {
+    "value": 13,
+    "label": "firms downgraded or cut targets",
+    "sub": "in one morning",
+    "source": "CNBC · 12 Nov 2026"
+   }
+  },
+  {
+   "id": "s12",
+   "vo": "Bernstein cut its price target in half, from four hundred dollars to two hundred.",
+   "type": "bars",
+   "props": {
+    "title": "Bernstein price target",
+    "unit": "$",
+    "bars": [
+     {
+      "label": "Before",
+      "value": 400
+     },
+     {
+      "label": "Now",
+      "value": 200,
+      "highlight": true
+     }
+    ],
+    "note": "Source: CNBC, 12 Nov 2026"
+   }
+  },
+  {
+   "id": "s13",
+   "vo": "Meanwhile, AMD and Broadcom stocks jump, as money moves to Nvidia's rivals.",
+   "type": "source",
+   "props": {
+    "shot": "img/shot-yahoo.json",
+    "url": "finance.yahoo.com",
+    "fallback": "Yahoo Finance: AMD, Broadcom stocks jump"
+   }
+  },
+  {
+   "id": "s14",
+   "vo": "Both gained about six percent, while Nvidia-backed CoreWeave sank twelve.",
+   "type": "versus",
+   "props": {
+    "leftTag": "DOWN",
+    "rightTag": "UP",
+    "left": {
+     "title": "Losers",
+     "points": [
+      "Nvidia −14%",
+      "CoreWeave −12%",
+      "Nebius −19%"
+     ]
+    },
+    "right": {
+     "title": "Winners",
+     "points": [
+      "AMD +5.9%",
+      "Broadcom +5.9%"
+     ]
+    }
+   }
+  },
+  {
+   "id": "s15",
+   "vo": "But here's the catch.",
+   "type": "punch",
+   "props": {
+    "text": "THE CATCH",
+    "style": "stamp"
+   }
+  },
+  {
+   "id": "s16",
+   "vo": "Analysts say the business itself didn't change. Same chips. Same customers. Same demand.",
+   "type": "list",
+   "props": {
+    "title": "What didn't change",
+    "check": true,
+    "items": [
+     "Same chips",
+     "Same customers",
+     "Same demand"
+    ]
+   }
+  },
+  {
+   "id": "s17",
+   "vo": "What changed is the premium investors paid for Jensen.",
+   "type": "title",
+   "enter": "blur",
+   "props": {
+    "lines": [
+     "The *Jensen premium*",
+     "is gone"
+    ],
+    "sub": "Stifel: \"The issue is the multiple.\""
+   }
+  },
+  {
+   "id": "s18",
+   "vo": "One analyst values Nvidia twenty-five percent lower without him.",
+   "type": "stat",
+   "enter": "pop",
+   "props": {
+    "value": 25,
+    "prefix": "−",
+    "suffix": "%",
+    "label": "fair value without Huang",
+    "sub": "$300 → $225",
+    "source": "Yorkville Ives · via Seeking Alpha"
+   }
+  },
+  {
+   "id": "s19",
+   "vo": "So here's exactly what happens next.",
+   "type": "title",
+   "enter": "cut",
+   "props": {
+    "lines": [
+     "What happens",
+     "[next]"
+    ]
+   }
+  },
+  {
+   "id": "s20",
+   "vo": "Tuesday: earnings, on schedule. Wednesday: Kress addresses the company. Then, the search for a permanent CEO.",
+   "type": "list",
+   "props": {
+    "title": "Locked in",
+    "items": [
+     "TUE 17 NOV · Q3 earnings",
+     "WED 18 NOV · all-company meeting",
+     "NEXT · permanent CEO search"
+    ]
+   }
+  },
+  {
+   "id": "s21",
+   "vo": "Until that name is announced, this stock trades on one question: who replaces Jensen?",
+   "type": "title",
+   "enter": "slide",
+   "props": {
+    "kicker": "OUR CALL",
+    "lines": [
+     "Who replaces",
+     "[Jensen?]"
+    ],
+    "sub": "That answer moves the stock. Nothing else."
+   }
+  },
+  {
+   "id": "s22",
+   "vo": "And the AI trade survives. The Nasdaq was green by late morning.",
+   "type": "title",
+   "props": {
+    "kicker": "NASDAQ +0.4% · LATE MORNING",
+    "lines": [
+     "AI trade:",
+     "*still standing*"
+    ],
+    "sub": "Source: Yahoo Finance / Reuters, 12 Nov 2026"
+   }
+  },
+  {
+   "id": "s23",
+   "vo": "Would you buy this dip, or stay out? Comment below.",
+   "type": "cta",
+   "props": {
+    "kind": "comment",
+    "headline": "Buy the dip, or stay out?",
+    "line": "Not financial advice",
+    "keyword": "Buying the dip.",
+    "sent": "Your call. Tell us why."
+   }
+  }
+ ],
+ "caption": "Jensen Huang is out at Nvidia. Here is what happened, what it did to the market, and what is locked in next.\n\n• Resigned 12 Nov 2026, effective immediately\n• Stock opened down 14%\n• CFO Colette Kress is interim CEO\n• Earnings still on for 17 Nov\n\nWould you buy the dip or stay out?\n\nNot financial advice. Allegations are as reported by the outlets cited. Voice is AI-generated.",
+ "hashtags": [
+  "nvidia",
+  "nvda",
+  "jensenhuang",
+  "stockmarket",
+  "aistocks",
+  "investing",
+  "technews"
+ ],
+ "sources_in_caption": [
+  "nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
+  "CNBC, WSJ, Yahoo Finance, 12 Nov 2026"
+ ],
+ "cover_at": 1.4
+}

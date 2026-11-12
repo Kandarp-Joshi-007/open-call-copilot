@@ -1,0 +1,25 @@
+{
+  "src": "img/shot-nvidia.png",
+  "w": 1080,
+  "h": 1318,
+  "marks": [
+    {
+      "text": "Jensen Huang Resigns",
+      "rects": [
+        {
+          "x": 0.1187,
+          "y": 0.9449,
+          "w": 0.4375,
+          "h": 0.0458
+        }
+      ],
+      "style": "marker"
+    }
+  ],
+  "focus": {
+    "x": 0.1187,
+    "y": 0.9449,
+    "w": 0.4375,
+    "h": 0.0458
+  }
+}
