@@ -9,7 +9,8 @@
 //
 // Run: npm run test:e2e
 import { _electron as electron } from "playwright-core";
-import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { spawn } from "node:child_process";
+import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -26,15 +27,56 @@ function check(name, ok, detail = "") {
 const skip = (name, why) => console.log(`SKIP  ${name}  (${why})`);
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-function launch() {
-  const electronPath = path.join(root, "node_modules", "electron", "dist", windows ? "electron.exe" : "electron");
-  const entry = windows ? "." : path.join(root, "test", "e2e", "harness.cjs");
-  return electron.launch({
-    executablePath: electronPath,
-    cwd: root,
-    args: [entry, `--user-data-dir=${userData}`, ...(windows ? [] : ["--no-sandbox", "--password-store=basic"])],
-    env: { ...process.env, MYNAH_MAIN: path.join(root, "dist", "main.mjs") },
+const electronPath = path.join(root, "node_modules", "electron", "dist", windows ? "electron.exe" : "electron");
+const appArgs = [windows ? "." : path.join(root, "test", "e2e", "harness.cjs"), `--user-data-dir=${userData}`, ...(windows ? [] : ["--no-sandbox", "--password-store=basic"])];
+const appEnv = { ...process.env, MYNAH_MAIN: path.join(root, "dist", "main.mjs") };
+// Makes a packaged Electron behave as plain Node; set by some tools and terminals.
+delete appEnv.ELECTRON_RUN_AS_NODE;
+
+async function launch() {
+  if (!existsSync(electronPath)) {
+    throw new Error(`Electron is not installed at ${electronPath}. Run npm install again (without --ignore-scripts) and check that it finishes without errors.`);
+  }
+  try {
+    return await electron.launch({ executablePath: electronPath, cwd: root, args: appArgs, env: appEnv, timeout: 60_000 });
+  } catch (err) {
+    await diagnose();
+    throw err;
+  }
+}
+
+/** The dashboard, once it has loaded. */
+async function dashboardOf(app) {
+  try {
+    const page = await app.firstWindow({ timeout: 60_000 });
+    await page.waitForSelector("#btn-create");
+    return page;
+  } catch (err) {
+    await app.close().catch(() => {});
+    await diagnose();
+    throw err;
+  }
+}
+
+/** When the test cannot start the app, starts it plainly and shows what it printed. */
+let diagnosed = false;
+async function diagnose() {
+  if (diagnosed) return;
+  diagnosed = true;
+  console.log("\nThe test could not start the app. Starting it directly to see why (up to 20 s)...\n");
+  const child = spawn(electronPath, [...appArgs, "--enable-logging"], { cwd: root, env: { ...appEnv, ELECTRON_ENABLE_LOGGING: "1" } });
+  let output = "";
+  child.stdout.on("data", (d) => (output += d));
+  child.stderr.on("data", (d) => (output += d));
+  const code = await new Promise((resolve) => {
+    const timer = setTimeout(() => resolve("still running"), 20_000);
+    child.on("exit", (c) => (clearTimeout(timer), resolve(c)));
+    child.on("error", (e) => (clearTimeout(timer), resolve(`could not start: ${e.message}`)));
   });
+  if (code === "still running") child.kill();
+  console.log(`App exit code: ${code}`);
+  console.log(code === "still running" ? "The app starts on its own, so the problem is the test's connection to it.\n" : "The app itself stopped during startup.\n");
+  console.log("Last output:\n" + (output.trim().split(/\r?\n/).slice(-40).join("\n") || "(none)") + "\n");
 }
 
 /** Records every setContentProtection call the app makes, with the window's title. */
@@ -101,8 +143,7 @@ async function visibleInCapture(app, page) {
 async function main() {
   console.log(`Mynah screen-share privacy test on ${process.platform} ${os.release()}\n`);
   let app = await launch();
-  let dash = await app.firstWindow();
-  await dash.waitForSelector("#btn-create");
+  let dash = await dashboardOf(app);
   await spy(app);
 
   await dash.click('.nav[data-view="settings"]');
@@ -166,8 +207,7 @@ async function main() {
   await app.close();
 
   app = await launch();
-  dash = await app.firstWindow();
-  await dash.waitForSelector("#btn-create");
+  dash = await dashboardOf(app);
   await dash.click('.nav[data-view="settings"]');
   check("the setting survives a restart", await dash.isChecked("#hide-from-capture"));
   if (windows) {
@@ -176,7 +216,16 @@ async function main() {
   await app.close();
 }
 
+// Some Playwright launch failures surface outside the awaited call.
+process.on("uncaughtException", async (err) => {
+  console.error(`\nERROR  ${err.stack ?? err}`);
+  await diagnose();
+  rmSync(userData, { recursive: true, force: true });
+  process.exit(1);
+});
+
 try {
+  console.log(`Electron ${JSON.parse(readFileSync(path.join(root, "node_modules", "electron", "package.json"), "utf8")).version}, Node ${process.version}\n`);
   await main();
 } catch (err) {
   console.error(`\nERROR  ${err.stack ?? err}`);
