@@ -33,12 +33,18 @@ const appEnv = { ...process.env, MYNAH_MAIN: path.join(root, "dist", "main.mjs")
 // Makes a packaged Electron behave as plain Node; set by some tools and terminals.
 delete appEnv.ELECTRON_RUN_AS_NODE;
 
+/** The running app, closed on failure so the test can exit. */
+let current;
+
 async function launch() {
   if (!existsSync(electronPath)) {
     throw new Error(`Electron is not installed at ${electronPath}. Run npm install again (without --ignore-scripts) and check that it finishes without errors.`);
   }
   try {
-    return await electron.launch({ executablePath: electronPath, cwd: root, args: appArgs, env: appEnv, timeout: 60_000 });
+    current = await electron.launch({ executablePath: electronPath, cwd: root, args: appArgs, env: appEnv, timeout: 60_000 });
+    // Without this, a click on a covered element retries forever.
+    current.context().setDefaultTimeout(30_000);
+    return current;
   } catch (err) {
     await diagnose();
     throw err;
@@ -110,10 +116,19 @@ async function visibleInCapture(app, page) {
     if (!el) {
       el = document.createElement("div");
       el.id = "__e2e_paint";
-      el.style.cssText = "position:fixed;inset:0;z-index:2147483647;background:#ff00ff";
+      // pointer-events:none so the test can still click the page underneath.
+      el.style.cssText = "position:fixed;inset:0;z-index:2147483647;background:#ff00ff;pointer-events:none";
       document.body.append(el);
     }
   });
+  try {
+    return await captureShare(app);
+  } finally {
+    await page.evaluate(() => document.getElementById("__e2e_paint")?.remove());
+  }
+}
+
+function captureShare(app) {
   return app.evaluate(async ({ BrowserWindow, desktopCapturer, screen }) => {
     const win = BrowserWindow.getAllWindows().find((w) => w.getTitle() === "Mynah");
     win.setAlwaysOnTop(true, "screen-saver");
@@ -168,7 +183,6 @@ async function main() {
   } else {
     skip("the window is left out of a screen capture", "only Windows and macOS honour it");
   }
-  await dash.evaluate(() => document.getElementById("__e2e_paint")?.remove());
 
   // Start a session: the live window must be protected from the moment it exists.
   const opened = app.waitForEvent("window");
@@ -230,8 +244,14 @@ try {
 } catch (err) {
   console.error(`\nERROR  ${err.stack ?? err}`);
   results.push(false);
+  await current?.close().catch(() => {});
 } finally {
-  rmSync(userData, { recursive: true, force: true });
+  // Electron may hold files in the profile for a moment after it closes.
+  try {
+    rmSync(userData, { recursive: true, force: true, maxRetries: 5, retryDelay: 500 });
+  } catch (err) {
+    console.log(`NOTE  Could not remove the test profile ${userData}: ${err.message}`);
+  }
 }
 const failed = results.filter((r) => !r).length;
 console.log(failed ? `\n${failed} FAILED` : `\nALL ${results.length} PASSED`);
