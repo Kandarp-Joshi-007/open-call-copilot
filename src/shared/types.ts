@@ -123,6 +123,8 @@ export interface AnswerEvent {
   delta?: string;
   done?: boolean;
   error?: string;
+  /** Replaced by a fuller answer to the same question: the card is removed. */
+  superseded?: boolean;
 }
 
 export interface AskEvent {

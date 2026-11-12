@@ -5,8 +5,9 @@ import { looksLikeQuestion } from "./questions";
 import type { DocumentStore, SessionStore } from "./store";
 import type { Transcriber } from "./stt";
 
-// Wait this long after the caller stops talking before deciding it was a
-// question, so a question split across two VAD segments is answered once.
+// Caller segments this close together are one utterance: a question split by
+// a short pause. The answer starts on the first segment and restarts with the
+// whole utterance if more of it arrives, instead of waiting out this time.
 const QUESTION_SETTLE_MS = 900;
 // The matching caller segment may still be decoding when the mic copy arrives.
 const ECHO_HOLD_MS = 1500;
@@ -44,6 +45,10 @@ export class LiveController {
   private inflight: AbortController | null = null;
   private saveTimer: NodeJS.Timeout | undefined;
   private pendingThem: string[] = [];
+  /** The auto answer to the utterance that is still being heard, if any. */
+  private speculative: AbortController | null = null;
+  /** Answers replaced by a fuller version of the same question. */
+  private superseded = new WeakSet<AbortController>();
   private questionTimer: NodeJS.Timeout | undefined;
   // Mock interview state
   private asked = 0;
@@ -69,6 +74,7 @@ export class LiveController {
     this.nextAnswer = 1;
     this.answeredUpTo = 0;
     this.pendingThem = [];
+    this.speculative = null;
     this.asked = 0;
     this.speaking = false;
     this.interviewerBusy = false;
@@ -105,17 +111,20 @@ export class LiveController {
     this.addSegment("them", text);
     this.pendingThem.push(text);
     clearTimeout(this.questionTimer);
-    this.questionTimer = setTimeout(() => {
-      const said = this.pendingThem.join(" ");
-      this.pendingThem = [];
-      if (this.autoAnswer && looksLikeQuestion(said)) void this.answer(said, true);
-    }, QUESTION_SETTLE_MS);
+    this.questionTimer = setTimeout(() => this.utteranceOver(), QUESTION_SETTLE_MS);
+    const said = this.pendingThem.join(" ");
+    if (this.autoAnswer && looksLikeQuestion(said)) void this.answer(said, true);
+  }
+
+  private utteranceOver(): void {
+    clearTimeout(this.questionTimer);
+    this.pendingThem = [];
+    this.speculative = null;
   }
 
   /** "Answer" button / hotkey: answer what the caller said since the last answer. */
   answerNow(): Promise<void> {
-    clearTimeout(this.questionTimer);
-    this.pendingThem = [];
+    this.utteranceOver();
     const r = this.record;
     if (!r) return Promise.resolve();
     const fresh = r.segments.filter((s) => s.speaker === "them" && s.id > this.answeredUpTo);
@@ -205,10 +214,14 @@ export class LiveController {
   private async run(kind: AnswerKind, question: string, prompt: Prompt, auto: boolean, effort: Effort): Promise<void> {
     const r = this.record;
     if (!r) return;
-    // A new question replaces the one being answered.
-    this.inflight?.abort();
+    // A new question replaces the one being answered. When it is the same
+    // utterance with more words, the earlier attempt disappears from the window.
+    const previous = this.inflight;
+    if (auto && previous && previous === this.speculative) this.superseded.add(previous);
+    previous?.abort();
     const ctrl = new AbortController();
     this.inflight = ctrl;
+    if (auto) this.speculative = ctrl;
     await this.stream(kind, question, auto, ctrl, systemPrompt(r), prompt, effort);
     if (this.inflight === ctrl) this.inflight = null;
   }
@@ -278,7 +291,8 @@ export class LiveController {
       emit({ done: true });
       return text;
     } catch (err) {
-      emit({ done: true, error: ctrl.signal.aborted ? "Stopped." : provider.describeError(err) });
+      if (this.superseded.has(ctrl)) emit({ done: true, superseded: true });
+      else emit({ done: true, error: ctrl.signal.aborted ? "Stopped." : provider.describeError(err) });
       return "";
     }
   }

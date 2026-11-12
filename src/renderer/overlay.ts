@@ -99,6 +99,15 @@ function paint(card: Card): void {
 
 api.on("answer", (ev) => {
   if (ev.id <= clearedUpTo) return;
+  if (ev.superseded) {
+    const old = cards.get(ev.id);
+    if (old) {
+      cancelAnimationFrame(old.frame);
+      old.el.remove();
+      cards.delete(ev.id);
+    }
+    return;
+  }
   const card = cards.get(ev.id) ?? createCard(ev);
   if (ev.delta) {
     card.text += ev.delta;
