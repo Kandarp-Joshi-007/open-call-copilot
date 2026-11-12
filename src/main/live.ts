@@ -42,7 +42,8 @@ export class LiveController {
   private nextSegment = 1;
   private nextAnswer = 1;
   private answeredUpTo = 0;
-  private inflight: AbortController | null = null;
+  /** Answers streaming right now. */
+  private inflight = new Set<AbortController>();
   private saveTimer: NodeJS.Timeout | undefined;
   private pendingThem: string[] = [];
   /** The auto answer to the utterance that is still being heard, if any. */
@@ -154,7 +155,7 @@ export class LiveController {
   }
 
   cancel(): void {
-    this.inflight?.abort();
+    for (const ctrl of this.inflight) ctrl.abort();
   }
 
   speakingDone(): void {
@@ -173,7 +174,7 @@ export class LiveController {
     clearTimeout(this.speakTimer);
     clearTimeout(this.saveTimer);
     this.saveTimer = undefined;
-    this.inflight?.abort();
+    this.cancel();
     this.interviewerCtrl?.abort();
     r.state = "ended";
     r.endedAt = Date.now();
@@ -214,16 +215,24 @@ export class LiveController {
   private async run(kind: AnswerKind, question: string, prompt: Prompt, auto: boolean, effort: Effort): Promise<void> {
     const r = this.record;
     if (!r) return;
-    // A new question replaces the one being answered. When it is the same
-    // utterance with more words, the earlier attempt disappears from the window.
-    const previous = this.inflight;
-    if (auto && previous && previous === this.speculative) this.superseded.add(previous);
-    previous?.abort();
+    if (auto) {
+      // Question detection is a guess, so an auto answer never stops an answer
+      // the user may be reading. It only replaces its own earlier attempt at
+      // the same utterance, which then disappears from the window.
+      const earlier = this.speculative;
+      if (earlier && this.inflight.has(earlier)) {
+        this.superseded.add(earlier);
+        earlier.abort();
+      }
+    } else {
+      // Something the user asked for replaces whatever is being answered.
+      this.cancel();
+    }
     const ctrl = new AbortController();
-    this.inflight = ctrl;
+    this.inflight.add(ctrl);
     if (auto) this.speculative = ctrl;
     await this.stream(kind, question, auto, ctrl, systemPrompt(r), prompt, effort);
-    if (this.inflight === ctrl) this.inflight = null;
+    this.inflight.delete(ctrl);
   }
 
   private scheduleInterviewerTurn(): void {

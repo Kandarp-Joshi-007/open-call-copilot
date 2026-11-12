@@ -8,6 +8,7 @@
   "scripts": {
     "build": "node build.mjs",
     "typecheck": "tsc --noEmit",
+    "test": "node scripts/test.mjs",
     "start": "node build.mjs && electron .",
     "models": "node scripts/download-models.mjs"
   },
