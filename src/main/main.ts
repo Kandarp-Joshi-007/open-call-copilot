@@ -8,7 +8,7 @@ import { LiveController, formatTranscript, writeNotes } from "./live";
 import { MeetingDetector } from "./meetings";
 import { ChatGPTProvider, listChatGPTModels, pickFastModel } from "./providers/chatgpt";
 import { CLAUDE_MODELS, ClaudeProvider } from "./providers/claude";
-import { loadSettings, saveSettings, toPublic } from "./settings";
+import { canStoreKey, loadSettings, saveSettings, toPublic } from "./settings";
 import { DocumentStore, SessionStore, summarize } from "./store";
 import { Transcriber } from "./stt";
 
@@ -244,6 +244,10 @@ function registerIpc(): void {
   ipcMain.handle("settings:get", () => publicSettings());
   ipcMain.handle("settings:set", (_e, update: SettingsUpdate) => {
     const previous = settings;
+    // The key is only ever stored encrypted. Say so instead of dropping it quietly.
+    if (update.apiKey && !canStoreKey()) {
+      throw new Error("This PC cannot encrypt the API key, so it was not saved. Clear the key field and set the ANTHROPIC_API_KEY environment variable instead.");
+    }
     settings = { ...settings, ...update, apiKey: update.apiKey ?? previous.apiKey };
     if (!settings.modelDir?.trim()) settings.modelDir = previous.modelDir;
     saveSettings(settings);

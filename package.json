@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
-  "description": "Real-time call assistant: local Parakeet speech-to-text + Claude answers, practice feedback and a knowledge base.",
+  "description": "Real-time call assistant for Windows: local Parakeet speech-to-text, answers from ChatGPT or Claude, call notes and mock interviews.",
   "main": "dist/main.mjs",
   "scripts": {
     "build": "node build.mjs",

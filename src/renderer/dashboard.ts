@@ -512,7 +512,7 @@ $("btn-settings-save").addEventListener("click", async () => {
   const key = $<HTMLInputElement>("api-key").value.trim();
   const model = $<HTMLSelectElement>("default-model").value;
   const notesModel = $<HTMLSelectElement>("notes-model").value;
-  settings = await api.saveSettings({
+  const saved = await api.saveSettings({
     ...(key ? { apiKey: key } : {}),
     ...(model ? (settings.provider === "chatgpt" ? { chatgptModel: model } : { model }) : {}),
     // Only when the model list loaded: an empty list must not clear the choice.
@@ -525,7 +525,12 @@ $("btn-settings-save").addEventListener("click", async () => {
     modelDir: $<HTMLInputElement>("model-dir").value.trim(),
     interviewerVoice: $<HTMLSelectElement>("voice").value,
     mockQuestions: Math.min(20, Math.max(2, Number($<HTMLInputElement>("mock-questions").value) || 6)),
+  }).catch((err) => {
+    $("settings-saved").textContent = errorText(err);
+    return null;
   });
+  if (!saved) return;
+  settings = saved;
   $<HTMLInputElement>("api-key").value = "";
   await renderSettings();
   $("settings-saved").textContent = "Saved.";

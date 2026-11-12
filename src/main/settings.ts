@@ -49,6 +49,9 @@ export function loadSettings(): Settings {
   return { ...base, ...known, apiKey };
 }
 
+/** False when the OS cannot encrypt, so an API key would not survive a restart. */
+export const canStoreKey = () => safeStorage.isEncryptionAvailable();
+
 export function saveSettings(settings: Settings): void {
   const { apiKey, ...rest } = settings;
   const stored: Stored = { ...rest };
