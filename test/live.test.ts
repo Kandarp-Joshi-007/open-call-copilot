@@ -135,3 +135,20 @@ test("words the mic picked up from the caller are dropped", () => {
   mock.timers.tick(1500);
   assert.deepEqual(record.segments.map((s) => s.speaker), ["them"]);
 });
+
+test("mock interview: the interviewer's own voice is not taken as the answer", async () => {
+  const { live, record, calls, spoken } = setup("mock");
+  live.windowReady();
+  calls[0].finish("Thanks for joining. To start, tell me about a project you are proud of and what your part in it was.");
+  await settle();
+  assert.equal(spoken.length, 1);
+  mock.timers.tick(10_000); // the voice takes ten seconds
+  live.speakingDone();
+  const done = Date.now();
+  // The mic's copy of the last sentence is decoded just after the voice stops.
+  live.onSegment("me", "and what your part in it was", done + 300, 2500);
+  // The candidate's real answer starts afterwards.
+  live.onSegment("me", "Sure, I rebuilt our billing pipeline.", done + 5000, 3000);
+  mock.timers.tick(8000);
+  assert.deepEqual(record.segments.map((s) => [s.speaker, s.text.slice(0, 4)]), [["them", "Than"], ["me", "Sure"]]);
+});

@@ -227,7 +227,7 @@ transcriber.on("status", (status) => {
   toOverlay("stt-status", status);
 });
 transcriber.on("error", (err) => console.error("[stt]", err));
-transcriber.on("segment", (speaker: Speaker, text: string, at: number) => live.onSegment(speaker, text, at));
+transcriber.on("segment", (speaker: Speaker, text: string, at: number, durationMs: number) => live.onSegment(speaker, text, at, durationMs));
 
 // ---- IPC -------------------------------------------------------------------------------
 

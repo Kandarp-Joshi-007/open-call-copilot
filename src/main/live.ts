@@ -54,6 +54,8 @@ export class LiveController {
   // Mock interview state
   private asked = 0;
   private speaking = false;
+  /** When the interviewer's voice last finished; Infinity while it is speaking. */
+  private speakUntil = 0;
   private interviewerBusy = false;
   private answerSinceTurn = false;
   private turnTimer: NodeJS.Timeout | undefined;
@@ -78,6 +80,7 @@ export class LiveController {
     this.speculative = null;
     this.asked = 0;
     this.speaking = false;
+    this.speakUntil = 0;
     this.interviewerBusy = false;
     this.answerSinceTurn = false;
     this.deps.store.save(record);
@@ -90,13 +93,15 @@ export class LiveController {
   }
 
   /** at: when the speech ended. Segments can arrive out of order (the caller is decoded first). */
-  onSegment(speaker: Speaker, text: string, at = Date.now()): void {
+  onSegment(speaker: Speaker, text: string, at = Date.now(), durationMs = 0): void {
     const r = this.record;
     if (!r || !this.active) return;
 
     if (speaker === "me") {
-      // In a mock interview the mic hears the interviewer's voice while it speaks.
-      if (r.kind === "mock" && this.speaking) return;
+      // In a mock interview the mic hears the interviewer's voice. Anything that
+      // began before the voice finished is dropped, judged by when it was said:
+      // the last sentence is only decoded after the voice has stopped.
+      if (r.kind === "mock" && at - durationMs < this.speakUntil) return;
       const heard = { text, at };
       setTimeout(() => {
         if (!this.active || isEcho(heard, r.segments.filter((s) => s.speaker === "them"))) return;
@@ -161,7 +166,10 @@ export class LiveController {
 
   speakingDone(): void {
     clearTimeout(this.speakTimer);
+    // Reported by the window and by the fallback timer: only the first counts.
+    if (!this.speaking) return;
     this.speaking = false;
+    this.speakUntil = Date.now();
   }
 
   /** Stops listening and returns the record; notes are written afterwards by the caller. */
@@ -271,6 +279,7 @@ export class LiveController {
     this.asked++;
     this.addSegment("them", text);
     this.speaking = true;
+    this.speakUntil = Infinity;
     this.deps.send("speak", text);
     clearTimeout(this.speakTimer);
     this.speakTimer = setTimeout(() => this.speakingDone(), text.split(/\s+/).length * SPEAK_MS_PER_WORD + SPEAK_GRACE_MS);
