@@ -109,7 +109,7 @@ function alertBox(message: string): void {
 
 // ---- Session detail --------------------------------------------------------------------------
 
-let askDraft: { el: HTMLElement; text: string } | null = null;
+let askDraft: { sessionId: string; el: HTMLElement; text: string } | null = null;
 
 async function openDetail(id: string, tab?: string, refresh = false): Promise<void> {
   const r = await api.getSession(id);
@@ -172,7 +172,7 @@ function markdownPanel(r: SessionRecord, text: string, what: string): HTMLElemen
   const md = h("div", { class: "md card" });
   renderMarkdown(md, text || `*No ${what} yet.*`);
   // Notes are written from the transcript, so there is nothing to regenerate without one.
-  const regenerate = r.segments.length ? h("div", {}, h("button", { class: "small", onclick: () => void api.regenerateNotes(r.id) }, "Regenerate notes and feedback")) : null;
+  const regenerate = r.segments.length ? h("div", {}, h("button", { class: "small", onclick: () => void api.regenerateNotes(r.id).catch((err) => alertBox(errorText(err))) }, "Regenerate notes and feedback")) : null;
   return h("div", { class: "stack" }, md, regenerate);
 }
 
@@ -220,7 +220,7 @@ function askPanel(r: SessionRecord): HTMLElement {
         input.value = "";
         chat.querySelector("p.muted")?.remove();
         bubble("user", q);
-        askDraft = { el: bubble("assistant", "*Thinking...*"), text: "" };
+        askDraft = { sessionId: r.id, el: bubble("assistant", "*Thinking...*"), text: "" };
         void api.askAi(r.id, q);
       },
     },
@@ -231,7 +231,8 @@ function askPanel(r: SessionRecord): HTMLElement {
 }
 
 api.on("ask-ai", (ev) => {
-  if (!askDraft || ev.sessionId !== detail?.id) return;
+  // Follows the question's session, not the open page: the user may have left it.
+  if (!askDraft || ev.sessionId !== askDraft.sessionId) return;
   if (ev.delta) {
     askDraft.text += ev.delta;
     renderMarkdown(askDraft.el, askDraft.text);

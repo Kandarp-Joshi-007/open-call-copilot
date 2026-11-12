@@ -76,6 +76,24 @@ const webPreferences = () => ({
   nodeIntegration: false,
 });
 
+/**
+ * AI answers can contain links. They open in the normal browser: inside the app
+ * they would replace the window and hand the remote page the preload API.
+ */
+function keepLinksOutside(win: BrowserWindow): void {
+  const open = (url: string) => {
+    if (/^https?:/i.test(url)) void shell.openExternal(url);
+  };
+  win.webContents.setWindowOpenHandler(({ url }) => {
+    open(url);
+    return { action: "deny" };
+  });
+  win.webContents.on("will-navigate", (e, url) => {
+    e.preventDefault();
+    open(url);
+  });
+}
+
 function createDashboard(): void {
   dashboard = new BrowserWindow({
     width: 1180,
@@ -88,6 +106,7 @@ function createDashboard(): void {
     titleBarOverlay: { color: "#111318", symbolColor: "#c9cdd6", height: 36 },
     webPreferences: webPreferences(),
   });
+  keepLinksOutside(dashboard);
   dashboard.loadFile(path.join(here, "renderer", "dashboard.html"));
   dashboard.on("closed", () => {
     dashboard = null;
@@ -121,6 +140,7 @@ function createOverlay(): BrowserWindow {
   });
   win.setAlwaysOnTop(settings.alwaysOnTop, "floating");
   win.setOpacity(Math.min(1, Math.max(0.3, settings.opacity)));
+  keepLinksOutside(win);
   win.loadFile(path.join(here, "renderer", "overlay.html"));
   // Closing the live window ends the session.
   win.on("close", () => {
@@ -272,10 +292,12 @@ function registerIpc(): void {
     overlay?.show();
     overlay?.focus();
   });
-  ipcMain.handle("sessions:regenerate", (_e, id: string) => {
+  ipcMain.handle("sessions:regenerate", async (_e, id: string) => {
     const r = sessions.get(id);
     // Without a saved transcript there is nothing to rewrite the notes from.
-    if (r && r.state === "ended" && !r.generating && r.segments.length) void writeNotes(r, { provider: () => provider, docs, store: sessions, sessionsChanged });
+    if (!r || r.state !== "ended" || r.generating || !r.segments.length) return;
+    const error = await writeNotes(r, { provider: () => provider, docs, store: sessions, sessionsChanged });
+    if (error) throw new Error(error);
   });
   ipcMain.handle("ask-ai", async (_e, id: string, question: string) => {
     const r = sessions.get(id);
@@ -373,8 +395,9 @@ app.whenReady().then(async () => {
   session.defaultSession.setDisplayMediaRequestHandler((_request, callback) => {
     desktopCapturer
       .getSources({ types: ["screen"] })
-      .then((sources) => callback({ video: sources[0], audio: "loopback" }))
-      .catch(() => callback({}));
+      .then((sources): Electron.Streams | null => (sources[0] ? { video: sources[0], audio: "loopback" } : null))
+      .catch(() => null)
+      .then(callback);
   });
 
   registerIpc();

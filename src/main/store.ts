@@ -141,6 +141,7 @@ async function extract(file: string, ext: string): Promise<string> {
   if (ext === "pdf") {
     const pdf = await getDocumentProxy(new Uint8Array(data));
     const { text } = await extractText(pdf, { mergePages: true });
+    if (!text.trim()) throw new Error(`${path.basename(file)}: no readable text found (it may be a scanned image). Upload a text-based PDF.`);
     return text.trim();
   }
   if (ext === "docx") {

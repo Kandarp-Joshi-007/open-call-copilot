@@ -284,19 +284,24 @@ export function formatTranscript(r: SessionRecord, maxChars = Infinity): string 
   return lines.join("\n");
 }
 
-/** Writes AI notes (and interview feedback) for an ended session. */
-export async function writeNotes(r: SessionRecord, deps: Pick<LiveDeps, "provider" | "docs" | "store" | "sessionsChanged">): Promise<void> {
+/**
+ * Writes AI notes (and interview feedback) for an ended session. Existing text is
+ * kept when it cannot be replaced. Resolves to what went wrong, or null.
+ */
+export async function writeNotes(r: SessionRecord, deps: Pick<LiveDeps, "provider" | "docs" | "store" | "sessionsChanged">): Promise<string | null> {
   const provider = deps.provider();
+  let error: string | null = null;
   r.generating = true;
   deps.store.save(r);
   deps.sessionsChanged();
   const transcript = formatTranscript(r);
   const context = buildContext(r, deps.docs);
-  const ask = async (prompt: Prompt) => {
+  const ask = async (prompt: Prompt, previous: string) => {
     try {
       return await provider.stream({ system: reviewPrompt(r), context, prompt, model: r.model, effort: "medium", maxTokens: 32000, signal: new AbortController().signal });
     } catch (err) {
-      return `*Could not write this: ${provider.describeError(err)}*`;
+      error = provider.describeError(err);
+      return previous || `*Could not write this: ${error}*`;
     }
   };
 
@@ -305,9 +310,10 @@ export async function writeNotes(r: SessionRecord, deps: Pick<LiveDeps, "provide
   } else if (!r.segments.length) {
     r.notes = "*Nothing was transcribed during this call.*";
   } else if (!provider.ready()) {
-    r.notes = `*${provider.notReadyMessage}*`;
+    error = provider.notReadyMessage;
+    r.notes ||= `*${error}*`;
   } else {
-    const [notes, feedback] = await Promise.all([ask(prompts.notes(r, transcript)), r.mode === "interview" ? ask(prompts.feedback(transcript)) : Promise.resolve("")]);
+    const [notes, feedback] = await Promise.all([ask(prompts.notes(r, transcript), r.notes), r.mode === "interview" ? ask(prompts.feedback(transcript), r.feedback) : Promise.resolve("")]);
     r.notes = notes;
     r.feedback = feedback;
   }
@@ -318,7 +324,8 @@ export async function writeNotes(r: SessionRecord, deps: Pick<LiveDeps, "provide
   }
   r.generating = false;
   // Deleted while the notes were being written: do not write the file back.
-  if (deps.store.get(r.id) !== r) return;
+  if (deps.store.get(r.id) !== r) return error;
   deps.store.save(r);
   deps.sessionsChanged();
+  return error;
 }
