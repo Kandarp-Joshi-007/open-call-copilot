@@ -15,18 +15,29 @@ interface Channel {
   pending: Float32Array;
 }
 
+/** One finished stretch of speech waiting to be decoded. */
+interface Job {
+  speaker: Speaker;
+  samples: Float32Array;
+  /** When the speech ended (the VAD closed the segment). */
+  at: number;
+}
+
 /**
  * Local speech-to-text: Silero VAD cuts each audio source at pauses and
  * Parakeet TDT (non-streaming) decodes every finished segment.
- * Emits ("segment", speaker, text) and ("status", SttStatus).
+ * Emits ("segment", speaker, text, endedAt, durationMs) and ("status", SttStatus).
  */
 export class Transcriber extends EventEmitter {
   status: SttStatus = { state: "loading" };
   private recognizer: any = null;
   private channels = new Map<Speaker, Channel>();
   private vadModel = "";
-  // One queue for both speakers keeps segments in the order they ended.
-  private queue: Promise<void> = Promise.resolve();
+  // One recognizer decodes one segment at a time. The caller's speech goes
+  // first: their question must not wait behind the user's own long answer.
+  // Listeners put segments back in spoken order using the end time.
+  private jobs: Job[] = [];
+  private working: Promise<void> | null = null;
 
   get ready(): boolean {
     return this.status.state === "ready";
@@ -88,7 +99,7 @@ export class Transcriber extends EventEmitter {
       this.drain(speaker, ch);
       ch.pending = new Float32Array(0);
     }
-    await this.queue;
+    await this.working;
   }
 
   private channel(speaker: Speaker): Channel {
@@ -122,18 +133,22 @@ export class Transcriber extends EventEmitter {
       // false = copy the samples; Electron forbids N-API external buffers.
       const segment = ch.vad.front(false);
       ch.vad.pop();
-      const samples: Float32Array = segment.samples;
-      this.queue = this.queue.then(() => this.decode(speaker, samples));
+      this.jobs.push({ speaker, samples: segment.samples, at: Date.now() });
     }
+    if (this.jobs.length) this.working ??= this.work().finally(() => (this.working = null));
   }
 
-  private async decode(speaker: Speaker, samples: Float32Array): Promise<void> {
+  private async work(): Promise<void> {
+    while (this.jobs.length) await this.decode(nextJob(this.jobs));
+  }
+
+  private async decode({ speaker, samples, at }: Job): Promise<void> {
     try {
       const stream = this.recognizer.createStream();
       stream.acceptWaveform({ sampleRate: SAMPLE_RATE, samples });
       await this.recognizer.decodeAsync(stream);
       const text: string = this.recognizer.getResult(stream).text.trim();
-      if (text) this.emit("segment", speaker, text);
+      if (text) this.emit("segment", speaker, text, at, Math.round((samples.length / SAMPLE_RATE) * 1000));
     } catch (err) {
       this.emit("error", err);
     }
@@ -143,4 +158,10 @@ export class Transcriber extends EventEmitter {
     this.status = status;
     this.emit("status", status);
   }
+}
+
+/** Removes and returns the next segment to decode: the caller's oldest, else the oldest. */
+export function nextJob<T extends { speaker: Speaker }>(jobs: T[]): T {
+  const i = jobs.findIndex((j) => j.speaker === "them");
+  return jobs.splice(Math.max(i, 0), 1)[0];
 }

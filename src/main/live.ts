@@ -89,17 +89,18 @@ export class LiveController {
     if (this.record?.kind === "mock" && this.asked === 0 && !this.interviewerBusy) void this.interviewerTurn();
   }
 
-  onSegment(speaker: Speaker, text: string): void {
+  /** at: when the speech ended. Segments can arrive out of order (the caller is decoded first). */
+  onSegment(speaker: Speaker, text: string, at = Date.now()): void {
     const r = this.record;
     if (!r || !this.active) return;
 
     if (speaker === "me") {
       // In a mock interview the mic hears the interviewer's voice while it speaks.
       if (r.kind === "mock" && this.speaking) return;
-      const heard = { text, at: Date.now() };
+      const heard = { text, at };
       setTimeout(() => {
         if (!this.active || isEcho(heard, r.segments.filter((s) => s.speaker === "them"))) return;
-        this.addSegment("me", text);
+        this.addSegment("me", text, at);
         if (r.kind === "mock") {
           this.answerSinceTurn = true;
           this.scheduleInterviewerTurn();
@@ -109,7 +110,7 @@ export class LiveController {
     }
 
     if (r.kind === "mock") return; // the interviewer is us, not the call audio
-    this.addSegment("them", text);
+    this.addSegment("them", text, at);
     this.pendingThem.push(text);
     clearTimeout(this.questionTimer);
     this.questionTimer = setTimeout(() => this.utteranceOver(), QUESTION_SETTLE_MS);
@@ -191,10 +192,14 @@ export class LiveController {
 
   // ---- internals ---------------------------------------------------------------
 
-  private addSegment(speaker: Speaker, text: string): void {
+  private addSegment(speaker: Speaker, text: string, at = Date.now()): void {
     const r = this.record!;
-    const seg = { id: this.nextSegment++, speaker, text, at: Date.now() };
-    r.segments.push(seg);
+    const seg = { id: this.nextSegment++, speaker, text, at };
+    // Keep the transcript in spoken order: "me" segments arrive late (they
+    // are held for the echo check and decoded after the caller's).
+    let i = r.segments.length;
+    while (i > 0 && r.segments[i - 1].at > at) i--;
+    r.segments.splice(i, 0, seg);
     this.deps.send("segment", seg);
     this.touch();
   }
