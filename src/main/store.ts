@@ -17,6 +17,20 @@ export function summarize(r: SessionRecord): SessionSummary {
   return summary;
 }
 
+/**
+ * A session that was live when the app closed (crash, power cut) has ended.
+ * It keeps what was saved during the call, and ends at the last thing heard.
+ */
+export function recover(r: SessionRecord): void {
+  r.state = "ended";
+  const last = Math.max(r.startedAt ?? 0, ...r.segments.map((s) => s.at), ...r.answers.map((a) => a.at));
+  r.endedAt = last || null;
+  r.durationMs = r.startedAt ? last - r.startedAt : 0;
+  if (!r.notes && r.segments.length) {
+    r.notes = "*Mynah closed before this call ended, so no notes were written. Use **Regenerate notes and feedback** below to write them from the saved transcript.*";
+  }
+}
+
 /** One JSON file per session in %APPDATA%/mynah/sessions. */
 export class SessionStore {
   private dir = path.join(app.getPath("userData"), "sessions");
@@ -29,8 +43,7 @@ export class SessionStore {
       try {
         const r = JSON.parse(readFileSync(path.join(this.dir, f), "utf8")) as SessionRecord;
         if (!r.id) continue; // files from the first version had no id
-        // A session that was live when the app closed has ended.
-        if (r.state === "live") r.state = "ended";
+        if (r.state === "live") recover(r);
         r.generating = false;
         this.cache.set(r.id, r);
       } catch {

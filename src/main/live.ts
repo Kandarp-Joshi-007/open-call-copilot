@@ -17,6 +17,9 @@ const LIVE_TRANSCRIPT_CHARS = 6000;
 // roughly the time the words take to say, so the interview cannot stall.
 const SPEAK_MS_PER_WORD = 600;
 const SPEAK_GRACE_MS = 8000;
+// The call is written to disk this often while it runs, so a crash or power
+// cut loses a couple of seconds of transcript, not the whole call.
+const SAVE_EVERY_MS = 2000;
 
 export interface LiveDeps {
   provider(): LlmProvider;
@@ -39,6 +42,7 @@ export class LiveController {
   private nextAnswer = 1;
   private answeredUpTo = 0;
   private inflight: AbortController | null = null;
+  private saveTimer: NodeJS.Timeout | undefined;
   private pendingThem: string[] = [];
   private questionTimer: NodeJS.Timeout | undefined;
   // Mock interview state
@@ -158,6 +162,8 @@ export class LiveController {
     clearTimeout(this.questionTimer);
     clearTimeout(this.turnTimer);
     clearTimeout(this.speakTimer);
+    clearTimeout(this.saveTimer);
+    this.saveTimer = undefined;
     this.inflight?.abort();
     this.interviewerCtrl?.abort();
     r.state = "ended";
@@ -180,6 +186,15 @@ export class LiveController {
     const seg = { id: this.nextSegment++, speaker, text, at: Date.now() };
     r.segments.push(seg);
     this.deps.send("segment", seg);
+    this.touch();
+  }
+
+  /** Saves the live record soon. Batched: every save rewrites the whole file. */
+  private touch(): void {
+    this.saveTimer ??= setTimeout(() => {
+      this.saveTimer = undefined;
+      if (this.record && this.active) this.deps.store.save(this.record);
+    }, SAVE_EVERY_MS);
   }
 
   private answer(question: string, auto: boolean): Promise<void> {
@@ -256,7 +271,10 @@ export class LiveController {
         signal: ctrl.signal,
         onText: (delta) => emit({ delta }),
       });
-      if (r.state === "live") r.answers.push({ id: base.id, kind, question, text, auto, at: base.at });
+      if (r.state === "live") {
+        r.answers.push({ id: base.id, kind, question, text, auto, at: base.at });
+        this.touch();
+      }
       emit({ done: true });
       return text;
     } catch (err) {
