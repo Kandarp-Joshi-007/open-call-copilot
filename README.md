@@ -24,6 +24,8 @@ npm start
 
 Then open **Settings** and either click **Continue with ChatGPT** (uses your ChatGPT plan's limits) or switch to Claude and add an Anthropic API key. Use headphones so your mic does not pick up the other side.
 
+To check a change: `npm run typecheck` and `npm test` (the tests cover question detection and the live session logic, and run without Electron or the speech models).
+
 Hotkeys during a session: `Ctrl+Alt+Enter` answer · `Ctrl+Alt+S` screenshot · `Ctrl+Alt+H` show/hide the live window.
 
 ## How it works
@@ -31,7 +33,7 @@ Hotkeys during a session: `Ctrl+Alt+Enter` answer · `Ctrl+Alt+S` screenshot · 
 | Part | File |
 |---|---|
 | Speech-to-text: Silero VAD cuts audio at pauses, Parakeet decodes each segment | `src/main/stt.ts` |
-| Live session: captions, question detection, answers, mock interviewer | `src/main/live.ts` |
+| Live session: captions, question detection, answers, mock interviewer | `src/main/live.ts`, `src/main/questions.ts`, `src/main/echo.ts` |
 | Prompts and context (resume, documents, instructions) | `src/main/assistant.ts` |
 | ChatGPT provider (Responses API) and Sign in with ChatGPT (OAuth + PKCE) | `src/main/providers/chatgpt.ts`, `src/main/chatgpt-auth.ts` |
 | Claude provider (Anthropic SDK, prompt caching) | `src/main/providers/claude.ts` |
