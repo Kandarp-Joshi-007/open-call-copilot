@@ -32,6 +32,8 @@ const toDashboard = (channel: MainEvent, payload?: unknown) => dashboard?.webCon
 const toOverlay = (channel: MainEvent, payload?: unknown) => overlay?.webContents.send(channel, payload);
 const sessionsChanged = () => toDashboard("sessions-changed");
 const publicSettings = () => toPublic(settings, chatgptAuth.account);
+const notesModel = () => (settings.provider === "chatgpt" ? settings.chatgptNotesModel : settings.notesModel);
+const notesDeps = () => ({ provider: () => provider, notesModel, docs, store: sessions, sessionsChanged });
 
 function makeProvider(): LlmProvider {
   return settings.provider === "chatgpt"
@@ -60,11 +62,17 @@ async function models(): Promise<ModelOption[]> {
 /** Chooses the fast default when no ChatGPT model is set, or the saved one is gone. */
 async function ensureChatGPTModel(): Promise<void> {
   const list = await chatgptModels();
-  if (list.length && !list.some((m) => m.id === settings.chatgptModel)) {
-    settings = { ...settings, chatgptModel: pickFastModel(list) };
-    saveSettings(settings);
-    provider = makeProvider();
-  }
+  if (!list.length) return;
+  const has = (id: string) => list.some((m) => m.id === id);
+  if (has(settings.chatgptModel) && (!settings.chatgptNotesModel || has(settings.chatgptNotesModel))) return;
+  settings = {
+    ...settings,
+    chatgptModel: has(settings.chatgptModel) ? settings.chatgptModel : pickFastModel(list),
+    // A notes model that is gone falls back to the answer model.
+    chatgptNotesModel: has(settings.chatgptNotesModel) ? settings.chatgptNotesModel : "",
+  };
+  saveSettings(settings);
+  provider = makeProvider();
 }
 
 // ---- Windows -------------------------------------------------------------------
@@ -204,7 +212,7 @@ async function endLive(): Promise<void> {
     if (reopened) await new Promise<void>((res) => dashboard!.webContents.once("did-finish-load", () => res()));
     if (record) {
       toDashboard("open-session", record.id);
-      await writeNotes(record, { provider: () => provider, docs, store: sessions, sessionsChanged });
+      await writeNotes(record, notesDeps());
     }
   } finally {
     ending = false;
@@ -296,7 +304,7 @@ function registerIpc(): void {
     const r = sessions.get(id);
     // Without a saved transcript there is nothing to rewrite the notes from.
     if (!r || r.state !== "ended" || r.generating || !r.segments.length) return;
-    const error = await writeNotes(r, { provider: () => provider, docs, store: sessions, sessionsChanged });
+    const error = await writeNotes(r, notesDeps());
     if (error) throw new Error(error);
   });
   ipcMain.handle("ask-ai", async (_e, id: string, question: string) => {
@@ -373,6 +381,7 @@ app.whenReady().then(async () => {
   live = new LiveController({
     provider: () => provider,
     settings: () => settings,
+    notesModel,
     docs,
     store: sessions,
     transcriber,

@@ -25,6 +25,8 @@ const SAVE_EVERY_MS = 2000;
 export interface LiveDeps {
   provider(): LlmProvider;
   settings(): Settings;
+  /** Model for notes and feedback after the call; "" keeps the session's answer model. */
+  notesModel(): string;
   docs: DocumentStore;
   store: SessionStore;
   transcriber: Transcriber;
@@ -343,7 +345,7 @@ export function formatTranscript(r: SessionRecord, maxChars = Infinity): string 
  * Writes AI notes (and interview feedback) for an ended session. Existing text is
  * kept when it cannot be replaced. Resolves to what went wrong, or null.
  */
-export async function writeNotes(r: SessionRecord, deps: Pick<LiveDeps, "provider" | "docs" | "store" | "sessionsChanged">): Promise<string | null> {
+export async function writeNotes(r: SessionRecord, deps: Pick<LiveDeps, "provider" | "notesModel" | "docs" | "store" | "sessionsChanged">): Promise<string | null> {
   const provider = deps.provider();
   let error: string | null = null;
   r.generating = true;
@@ -353,7 +355,7 @@ export async function writeNotes(r: SessionRecord, deps: Pick<LiveDeps, "provide
   const context = buildContext(r, deps.docs);
   const ask = async (prompt: Prompt, previous: string) => {
     try {
-      return await provider.stream({ system: reviewPrompt(r), context, prompt, model: r.model, effort: "medium", maxTokens: 32000, signal: new AbortController().signal });
+      return await provider.stream({ system: reviewPrompt(r), context, prompt, model: deps.notesModel() || r.model, effort: "medium", maxTokens: 32000, signal: new AbortController().signal });
     } catch (err) {
       error = provider.describeError(err);
       return previous || `*Could not write this: ${error}*`;

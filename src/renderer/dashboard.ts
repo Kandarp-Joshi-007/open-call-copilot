@@ -456,6 +456,8 @@ async function renderSettings(): Promise<void> {
   const models = await api.models().catch(() => []);
   $("default-model").replaceChildren(...models.map((m) => new Option(m.name, m.id)));
   $<HTMLSelectElement>("default-model").value = settings.provider === "chatgpt" ? settings.chatgptModel : settings.model;
+  $("notes-model").replaceChildren(new Option("Same as live answers", ""), ...models.map((m) => new Option(m.name, m.id)));
+  $<HTMLSelectElement>("notes-model").value = settings.provider === "chatgpt" ? settings.chatgptNotesModel : settings.notesModel;
 }
 
 function renderVoices(): void {
@@ -509,9 +511,12 @@ $("btn-chatgpt-usage").addEventListener("click", () => void api.openUsage());
 $("btn-settings-save").addEventListener("click", async () => {
   const key = $<HTMLInputElement>("api-key").value.trim();
   const model = $<HTMLSelectElement>("default-model").value;
+  const notesModel = $<HTMLSelectElement>("notes-model").value;
   settings = await api.saveSettings({
     ...(key ? { apiKey: key } : {}),
     ...(model ? (settings.provider === "chatgpt" ? { chatgptModel: model } : { model }) : {}),
+    // Only when the model list loaded: an empty list must not clear the choice.
+    ...($<HTMLSelectElement>("notes-model").options.length > 1 ? (settings.provider === "chatgpt" ? { chatgptNotesModel: notesModel } : { notesModel }) : {}),
     liveEffort: $<HTMLSelectElement>("live-effort").value as PublicSettings["liveEffort"],
     autoAnswer: $<HTMLInputElement>("auto-answer").checked,
     alwaysOnTop: $<HTMLInputElement>("always-on-top").checked,

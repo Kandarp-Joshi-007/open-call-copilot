@@ -10,7 +10,11 @@ function defaults(): Settings {
     provider: "chatgpt",
     chatgptModel: "",
     apiKey: "",
-    model: "claude-opus-5-5",
+    // Live answers need the first words fast; notes after the call can take
+    // their time, so they get the stronger model.
+    model: "claude-sonnet-5-5",
+    notesModel: "claude-opus-5-5",
+    chatgptNotesModel: "",
     liveEffort: "low",
     autoAnswer: true,
     alwaysOnTop: true,

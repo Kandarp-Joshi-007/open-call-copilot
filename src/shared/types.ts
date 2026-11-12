@@ -87,8 +87,11 @@ export interface Settings {
   /** Default ChatGPT model slug; "" until the account's catalog is loaded. */
   chatgptModel: string;
   apiKey: string;
-  /** Default Claude model. */
+  /** Default Claude model for live answers. */
   model: string;
+  /** Models that write the notes and feedback after a call; "" uses the session's answer model. */
+  notesModel: string;
+  chatgptNotesModel: string;
   liveEffort: Effort;
   autoAnswer: boolean;
   alwaysOnTop: boolean;

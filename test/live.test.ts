@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { beforeEach, mock, test } from "node:test";
 import type { StreamRequest } from "../src/main/assistant";
-import { LiveController, type LiveDeps } from "../src/main/live";
+import { LiveController, writeNotes, type LiveDeps } from "../src/main/live";
 import type { AnswerEvent, SessionRecord, Settings } from "../src/shared/types";
 
 /** A model call the test finishes by hand; it fails like the real ones when aborted. */
@@ -151,4 +151,23 @@ test("mock interview: the interviewer's own voice is not taken as the answer", a
   live.onSegment("me", "Sure, I rebuilt our billing pipeline.", done + 5000, 3000);
   mock.timers.tick(8000);
   assert.deepEqual(record.segments.map((s) => [s.speaker, s.text.slice(0, 4)]), [["them", "Than"], ["me", "Sure"]]);
+});
+
+test("notes are written with the notes model, or the session's when none is set", async () => {
+  for (const [setting, expected] of [["strong-model", "strong-model"], ["", "session-model"]]) {
+    const { live, record, calls } = setup();
+    record.model = "session-model";
+    live.onSegment("them", "We use Postgres and Redis for most things.");
+    const ended = live.end();
+    await settle(); // end() first flushes speech-to-text, then waits out the echo hold
+    mock.timers.tick(2000);
+    await ended;
+    const deps = { provider: (live as any).deps.provider, notesModel: () => setting, docs: (live as any).deps.docs, store: { save: () => {}, get: () => record }, sessionsChanged: () => {} };
+    const written = writeNotes(record, deps as any);
+    await settle();
+    assert.deepEqual(calls.map((c) => c.req.model), [expected, expected]); // notes and feedback
+    calls.forEach((c) => c.finish("## Summary"));
+    assert.equal(await written, null);
+    assert.equal(record.notes, "## Summary");
+  }
 });
