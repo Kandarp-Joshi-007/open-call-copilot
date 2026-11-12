@@ -27,6 +27,8 @@ Then open **Settings** and either click **Continue with ChatGPT** (uses your Cha
 
 To check a change: `npm run typecheck` and `npm test` (the tests cover question detection and the live session logic, and run without Electron or the speech models).
 
+`npm run test:e2e` starts the app with a throwaway profile and tests **Hide from screen sharing** end to end. On Windows it also takes a real screen capture and checks that Mynah's window is in it with the setting off and left out with it on.
+
 Hotkeys during a session: `Ctrl+Alt+Enter` answer · `Ctrl+Alt+S` screenshot · `Ctrl+Alt+H` show/hide the live window.
 
 ## How it works

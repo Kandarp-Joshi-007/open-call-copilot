@@ -9,6 +9,7 @@
     "build": "node build.mjs",
     "typecheck": "tsc --noEmit",
     "test": "node scripts/test.mjs",
+    "test:e2e": "node build.mjs && node test/e2e/privacy.mjs",
     "start": "node build.mjs && electron .",
     "models": "node scripts/download-models.mjs"
   },
@@ -25,6 +26,7 @@
     "@types/node": "26.6.5",
     "electron": "45.0.0",
     "esbuild": "0.28.2",
+    "playwright-core": "1.63.0",
     "typescript": "7.0.2"
   }
 }
